@@ -1,7 +1,9 @@
 import { ElementType } from 'react';
 // @mui
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { Button, Popover, ButtonProps, LinkProps } from '@mui/material';
+import { alpha } from '@mui/system';
+
 // config
 import { NAVBAR } from '../../../config';
 

@@ -1,6 +1,8 @@
 import { ElementType } from 'react';
 // @mui
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/system';
+
 import {
   LinkProps,
   ListItemText,
