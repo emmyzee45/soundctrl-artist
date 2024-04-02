@@ -12,6 +12,12 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { UserProps } from "@types";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
+import { getUserFailure, getUserStart, getUserSuccess } from "../redux/slice/UserSlice";
+import { makeRequest } from "../utils/axios";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -26,6 +32,32 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Login() {
+  const [input, setInput] = useState<UserProps | null>(null);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const from = location.state?.from?.pathname || "/artist-dashboard"
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(getUserStart())
+    try {
+      const res = await makeRequest.post("/auth/login", input);
+      dispatch(getUserSuccess(res.data))
+      navigate(from, {replace: true});
+    }catch(err) {
+      dispatch(getUserFailure());
+    }
+  }
+
   return (
     <RootStyle>
       <ContentStyle>
@@ -53,6 +85,8 @@ export default function Login() {
             >
               <InputBase
                 placeholder='Enter your email'
+                name="email"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Enter your email" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -76,6 +110,8 @@ export default function Login() {
             >
               <InputBase
                 placeholder='Password'
+                name="password"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Password" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -91,6 +127,7 @@ export default function Login() {
               Forgot password?
             </Link>
             <Button
+            onClick={handleSubmit}
               variant='contained'
               size='large'
               sx={{

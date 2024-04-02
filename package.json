@@ -7,9 +7,11 @@
     "@emotion/styled": "^11.6.0",
     "@hookform/resolvers": "^2.8.5",
     "@iconify/react": "^3.1.0",
+    "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.60",
     "@mui/material": "^5.2.4",
     "@mui/x-date-pickers": "^6.12.1",
+    "@reduxjs/toolkit": "^2.2.2",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^14.1.1",
@@ -19,6 +21,7 @@
     "date-fns": "^2.27.0",
     "dayjs": "^1.11.9",
     "emoji-mart": "^5.5.2",
+    "firebase": "^10.10.0",
     "framer-motion": "^10.16.1",
     "highlight.js": "^11.8.0",
     "history": "^5.2.0",
@@ -41,8 +44,10 @@
     "react-intersection-observer": "^8.33.1",
     "react-lazy-load-image-component": "^1.6.0",
     "react-markdown": "^8.0.7",
+    "react-redux": "^9.1.0",
     "react-router-dom": "^6.15.0",
     "react-slick": "^0.29.0",
+    "redux-persist": "^6.0.0",
     "rehype-raw": "^6.1.1",
     "simplebar-react": "^3.2.4",
     "slick-carousel": "^1.8.1",
@@ -55,7 +60,7 @@
     "zustand": "^4.5.0"
   },
   "scripts": {
-    "start": "GENERATE_SOURCEMAP=false craco start",
+    "start": "react-scripts start",
     "winStart": "set \"GENERATE_SOURCEMAP=false\" && craco start",
     "build": "craco build",
     "test": "craco test --passWithNoTests --watchAll=false",
@@ -68,7 +73,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@craco/craco": "^7.0.0",
+    "@craco/craco": "^7.1.0",
     "@types/emoji-mart": "^3.0.4",
     "@types/insert-css": "^2.0.1",
     "@types/jest": "^26.0.24",

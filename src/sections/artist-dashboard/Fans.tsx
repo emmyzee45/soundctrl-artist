@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import { User } from "assets";
 import { ArtistFanCard } from "components/cards";
 import { ARTISTFANCARDS } from "data";
+import { useAppSelector } from "../../redux/hooks";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -14,6 +15,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Fans() {
+  const fans = useAppSelector((state) => state.fan.fans);
   return (
     <ContentStyle>
       <Typography
@@ -46,13 +48,13 @@ export default function Fans() {
         TOP FANS
       </Typography>
       <Stack justifyContent='space-between' flexWrap='wrap' gap={2}>
-        {ARTISTFANCARDS.map((item, index) => (
+        {fans?.map((item, index) => (
           <ArtistFanCard
             key={index}
-            name={item.name}
-            avatar={User}
+            username={item.username}
+            avatarImg={item.avatarImg}
             points={item.points}
-            date={item.date}
+            // date={item.date}
           />
         ))}
       </Stack>

@@ -1,6 +1,9 @@
 // @mui
 import { Container, Typography, Stack, Paper, InputBase, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeRequest } from "utils/axios";
 
 // ---------------------------------------------------------------------
 
@@ -13,6 +16,19 @@ const RootStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Invite() {
+  const [input, setInput] = useState("");
+
+  const navigate = useNavigate()
+
+  const handleSubmit = async() => {
+    try {
+      const res = await makeRequest.post(`/waitlist/${input}`);
+      res.status === 200 && navigate("/artist-socials", {state: {from: "/code"}, replace: true})
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <RootStyle>
       <Container>
@@ -42,6 +58,7 @@ export default function Invite() {
             <InputBase
               placeholder='XXX - XX - XXXXX'
               inputProps={{ "aria-label": "invite code" }}
+              onChange={(e) => setInput(e.target.value)}
               sx={{
                 bgcolor: "common.white",
                 padding: "8px 10px",
@@ -50,6 +67,7 @@ export default function Invite() {
           
             <Button
               variant='contained'
+              onClick={handleSubmit}
               sx={{
                 bgcolor: "common.black",
                 color: "common.white",

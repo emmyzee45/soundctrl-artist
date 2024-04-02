@@ -12,7 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useEffect } from "react";
+import { UserProps } from "@types";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { makeRequest } from "utils/axios";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -27,6 +30,26 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Register() {
+  const [input, setInput] = useState<UserProps | null>(null);
+
+  const navigate = useNavigate();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    try {
+      const res = await makeRequest.post("/auth/register", input);
+      res.status == 200 && navigate("/login");
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   useEffect(() => {
     console.log(process.env.REACT_APP_BASE_URL);
   }, []);
@@ -58,6 +81,8 @@ export default function Register() {
             >
               <InputBase
                 placeholder='Username'
+                name="username"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Username" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -81,6 +106,8 @@ export default function Register() {
             >
               <InputBase
                 placeholder='Enter your email'
+                name="email"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Enter your email" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -104,6 +131,8 @@ export default function Register() {
             >
               <InputBase
                 placeholder='Password'
+                name="password"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Password" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -127,6 +156,8 @@ export default function Register() {
             >
               <InputBase
                 placeholder='Confirm Password'
+                name="confirmPassword"
+                onChange={handleChange}
                 inputProps={{ "aria-label": "Confirm Password" }}
                 sx={{
                   bgcolor: "rgba(243, 243, 243, 1)",
@@ -140,6 +171,7 @@ export default function Register() {
 
             <Button
               variant='contained'
+              onClick={handleSubmit}
               size='large'
               sx={{
                 borderRadius: 1,

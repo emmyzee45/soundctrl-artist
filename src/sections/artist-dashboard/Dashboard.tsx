@@ -4,6 +4,7 @@ import { styled } from "@mui/material/styles";
 import { User } from "assets";
 import { AcceptedTicketCard, ArtistFanCard, LocationListCard } from "components/cards";
 import { ARTISTFANCARDS } from "data";
+import { useAppSelector } from "../../redux/hooks";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -13,6 +14,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Dashboard() {
+  const fans = useAppSelector((state) => state.fan.fans);
+
   return (
     <ContentStyle>
       <Stack spacing={3}>
@@ -31,13 +34,13 @@ export default function Dashboard() {
               </Typography>
               <Button sx={{ color: "common.black" }}>see all</Button>
             </Stack>
-            {ARTISTFANCARDS.splice(0, 4).map((item, index) => (
+            {[...fans]?.splice(0, 4).map((item, index) => (
               <ArtistFanCard
                 key={index}
-                avatar={User}
-                name={item.name}
+                avatarImg={item.avatarImg}
+                username={item.username}
                 points={item.points}
-                date={item.date}
+                // date={item.date}
               />
             ))}
           </Stack>
