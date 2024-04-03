@@ -16,6 +16,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Fans() {
   const fans = useAppSelector((state) => state.fan.fans);
+  const user = useAppSelector((state) => state.user.currentUser);
+  // const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id) )
   return (
     <ContentStyle>
       <Typography

@@ -22,7 +22,7 @@ export interface UserProp {
   createdAt?: string,
   _id?: string,
   isArtist?: boolean,
-  subscribers?: string[],
+  subscribedUsers?: string[],
   desc?: string,
   twitter?: string,
   instagram?: string,
