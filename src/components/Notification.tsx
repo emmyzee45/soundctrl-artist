@@ -5,17 +5,15 @@ import { alpha } from '@mui/material/styles';
 
 interface NotificationProps {
   message: string;
-  type: 'success' | 'error'; 
+  // type: 'success' | 'error'; 
   show: boolean;
   setShow: React.Dispatch<SetStateAction<boolean>>;
 }
 
-const Notification = ({ message, type, show, setShow }: NotificationProps) => {
-  console.log("incoming", show)
+const Notification = ({ message, show, setShow }: NotificationProps) => {
   const theme = useTheme();
   const isLight = theme.palette.mode === 'light';
   const [open, setOpen] = useState(false);
-  console.log("inner", open)
   
   useEffect(() => {
     show && setOpen(show);
@@ -41,7 +39,7 @@ const Notification = ({ message, type, show, setShow }: NotificationProps) => {
             <CloseIcon fontSize="small" />
           </IconButton>
         }
-        className={`SnackbarContent-root ${type === 'success' ? 'SnackbarItem-variantSuccess' : 'SnackbarItem-variantError'}`}
+        className={`SnackbarContent-root SnackbarItem-variantSuccess`}
         sx={{
           width: '100%',
           padding: theme.spacing(1),
@@ -56,7 +54,7 @@ const Notification = ({ message, type, show, setShow }: NotificationProps) => {
         }}
         style={{
           backgroundColor: "transparent",
-          color: theme.palette.getContrastText(type === 'success' ? theme.palette.success.main : theme.palette.error.main),
+          color: theme.palette.getContrastText(theme.palette.success.main),
         }}
       />
     </>

@@ -14,7 +14,9 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Dashboard() {
+  const user = useAppSelector((state) => state.user.currentUser);
   const fans = useAppSelector((state) => state.fan.fans);
+  const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
 
   return (
     <ContentStyle>
@@ -34,9 +36,9 @@ export default function Dashboard() {
               </Typography>
               <Button sx={{ color: "common.black" }}>see all</Button>
             </Stack>
-            {[...fans]?.splice(0, 4).map((item, index) => (
+            {filteredFans?.splice(0, 4).map((item, index) => (
               <ArtistFanCard
-                key={index}
+                _id={item._id}
                 avatarImg={item.avatarImg}
                 username={item.username}
                 points={item.points}

@@ -16,6 +16,9 @@ import Image from "../../components/Image";
 import MenuDesktop from "./MenuDesktop";
 import MenuMobile from "./MenuMobile";
 import navConfig from "./MenuConfig";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { makeRequest } from "../../utils/axios";
+import { logoutUserFailure, logoutUserStart, logoutUserSuccess } from "../../redux/slice/UserSlice";
 
 // ----------------------------------------------------------------------
 
@@ -46,7 +49,9 @@ const ToolbarShadowStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function MainHeader() {
+  const dispatch = useAppDispatch();
   const isOffset = useOffSetTop(HEADER.MAIN_DESKTOP_HEIGHT);
+  const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
 
   const theme = useTheme();
 
@@ -55,6 +60,16 @@ export default function MainHeader() {
   const isDesktop = useResponsive("up", "md");
 
   const isHome = pathname === "/";
+
+  const handleLogout = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    dispatch(logoutUserStart())
+    try {
+      await makeRequest.post("/auth/logout");
+      dispatch(logoutUserSuccess())
+    }catch(err) {
+      dispatch(logoutUserFailure())
+    }
+  }
 
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: "transparent" }}>
@@ -81,17 +96,18 @@ export default function MainHeader() {
           <Box sx={{ flexGrow: 1 }} />
 
           {/* {isDesktop && <MenuDesktop isOffset={isOffset} isHome={isHome} navConfig={navConfig} />} */}
+          {!isAuthenticated ? (
 
-          <Link to='/Login' style={{ textDecoration: "none" }}>
+            <Link to='/login' style={{ textDecoration: "none" }}>
             <Button variant='text' sx={{ color: "grey.700" }}>
               LOG IN
             </Button>
           </Link>
-          <Link to='/Register' style={{ textDecoration: "none" }}>
-            <Button variant='text' sx={{ color: "grey.700" }}>
-              SIGN UP
+          ):(
+            <Button variant='text' sx={{ color: "grey.700" }} onClick={handleLogout}>
+              LOG OUT
             </Button>
-          </Link>
+          )}
 
           {/* {!isDesktop && <MenuMobile isOffset={isOffset} isHome={isHome} navConfig={navConfig} />} */}
         </Container>

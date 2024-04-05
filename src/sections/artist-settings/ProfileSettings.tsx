@@ -25,6 +25,7 @@ import { FileProps } from "@types";
 import { makeRequest } from "../../utils/axios";
 import { updatetUserFailure, updatetUserStart, updatetUserSuccess } from "../../redux/slice/UserSlice";
 import Notification from "../../components/Notification";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // components
 
@@ -38,9 +39,10 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function ProfileSettings() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   const user = useAppSelector((state) => state.user.currentUser);
   const [message, setMessage] = useState("");
-  const [type, setType] = useState<'success' | 'error'>('success');
   const [show, setShow] = useState(false);
   const [email, setEmail] = useState(user?.email);
   const [desc, setDesc] = useState(user?.desc);
@@ -144,10 +146,15 @@ export default function ProfileSettings() {
       dispatch(updatetUserSuccess(res.data));
       setMessage("Successfully saved!");
       setShow(true)
-      setType('error')
-    }catch(err) {
-      dispatch(updatetUserFailure())
-      console.log(err)
+    }catch(err: any) {
+      if(err?.response.status === 401) {
+        setMessage("Please login")
+        navigate("/login", {state: {from: location }, replace: true})
+      } else if (err.response.status === 403) {
+        setMessage("Session expired!")
+        navigate("/login", {state: {from: location}, replace: true})
+      }
+      dispatch(updatetUserFailure());
     }
   }
 
@@ -534,7 +541,7 @@ export default function ProfileSettings() {
           </Button>
         </Stack>
       </Stack>
-      <Notification message={message} type={type} show={show} setShow={setShow}/>
+      <Notification message={message} show={show} setShow={setShow}/>
     </ContentStyle>
   );
 }

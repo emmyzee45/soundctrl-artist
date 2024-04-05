@@ -17,7 +17,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function Fans() {
   const fans = useAppSelector((state) => state.fan.fans);
   const user = useAppSelector((state) => state.user.currentUser);
-  // const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id) )
+  const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id) )
   return (
     <ContentStyle>
       <Typography
@@ -50,9 +50,9 @@ export default function Fans() {
         TOP FANS
       </Typography>
       <Stack justifyContent='space-between' flexWrap='wrap' gap={2}>
-        {fans?.map((item, index) => (
+        {filteredFans?.map((item, index) => (
           <ArtistFanCard
-            key={index}
+            _id={item._id}
             username={item.username}
             avatarImg={item.avatarImg}
             points={item.points}

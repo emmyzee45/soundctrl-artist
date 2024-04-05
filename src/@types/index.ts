@@ -20,7 +20,7 @@ export interface UserProp {
   bannerImg?: string,
   chatprofileImg?: string,
   createdAt?: string,
-  _id?: string,
+  _id: string,
   isArtist?: boolean,
   subscribedUsers?: string[],
   desc?: string,

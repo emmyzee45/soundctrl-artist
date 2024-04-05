@@ -18,6 +18,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
 import { getUserFailure, getUserStart, getUserSuccess } from "../redux/slice/UserSlice";
 import { makeRequest } from "../utils/axios";
+import Notification from "components/Notification";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -32,6 +33,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Login() {
+  const [message, setMessage] = useState("");
+  const [show, setShow] = useState(false);
   const [input, setInput] = useState<UserProps | null>(null);
 
   const location = useLocation();
@@ -53,8 +56,18 @@ export default function Login() {
       const res = await makeRequest.post("/auth/login", input);
       dispatch(getUserSuccess(res.data))
       navigate(from, {replace: true});
-    }catch(err) {
+    }catch(err: any) {
+      if(!err?.response) {
+        setMessage("No server response");
+      } else if(err?.response?.status === 400) {
+        setMessage("Invalid Email or Password")
+      } else if (err.response.status === 404) {
+        setMessage("User not found!")
+      } else {
+        setMessage("Login failed!")
+      }
       dispatch(getUserFailure());
+      setShow(true);
     }
   }
 
@@ -157,6 +170,7 @@ export default function Login() {
           </Stack>
         </Stack>
       </ContentStyle>
+      <Notification message={message} show={show} setShow={setShow}  />
     </RootStyle>
   );
 }
