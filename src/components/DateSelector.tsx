@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -8,20 +8,17 @@ interface DateSelectorProps {
 }
 
 const DateSelector: React.FC<DateSelectorProps> = ({ selectedDate, onDateChange }) => {
-  const [calendarDate, setCalendarDate] = useState<Date | null>(selectedDate);
-
   return (
     <div>
       <Calendar
         onChange={(date) => {
           if (date instanceof Date) {
-            setCalendarDate(date);
             onDateChange(date);
           }
         }}
-        value={calendarDate} 
-        showNavigation 
-        selectRange={false} 
+        value={selectedDate}
+        showNavigation
+        selectRange={false}
       />
     </div>
   );
