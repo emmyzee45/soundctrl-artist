@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { styled } from "@mui/material/styles";
 
 interface TimeSelectorProps {
   selectedTime: string;
@@ -6,23 +7,39 @@ interface TimeSelectorProps {
   timeInterval: number;
 }
 
-const TimeSelector: React.FC<TimeSelectorProps> = ({ selectedTime, onTimeChange, timeInterval }) => {
-  // Define the start and end times (7:00 AM to 11:45 PM)
+const StyledSelect = styled("select")({
+  width: "30%", 
+  padding: "8px",
+  fontSize: "16px",
+  border: "1px solid #ccc",
+  borderRadius: "4px",
+  backgroundColor: "#f9f9f9",
+  boxShadow: "inset 0 1px 3px rgba(0, 0, 0, 0.1)",
+  outline: "none",
+});
+
+const TimeSelector: React.FC<TimeSelectorProps> = ({
+  selectedTime,
+  onTimeChange,
+  timeInterval,
+}) => {
   const startTimeHour = 7;
   const endTimeHour = 23;
-  
+
   // Generate time slots based on the selected time interval
   const timeSlots: string[] = [];
   const intervalInMinutes = timeInterval;
 
   for (let hour = startTimeHour; hour <= endTimeHour; hour++) {
     for (let minute = 0; minute < 60; minute += intervalInMinutes) {
-      const startHour = hour.toString().padStart(2, '0');
-      const startMinute = minute.toString().padStart(2, '0');
+      const startHour = hour.toString().padStart(2, "0");
+      const startMinute = minute.toString().padStart(2, "0");
       const endMinute = (minute + intervalInMinutes) % 60;
-      const endHour = (hour + Math.floor((minute + intervalInMinutes) / 60)).toString().padStart(2, '0');
+      const endHour = (hour + Math.floor((minute + intervalInMinutes) / 60))
+        .toString()
+        .padStart(2, "0");
       const startTime = `${startHour}:${startMinute}`;
-      const endTime = `${endHour}:${endMinute.toString().padStart(2, '0')}`;
+      const endTime = `${endHour}:${endMinute.toString().padStart(2, "0")}`;
       const timeSlot = `${startTime} - ${endTime}`;
       timeSlots.push(timeSlot);
     }
@@ -30,15 +47,17 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ selectedTime, onTimeChange,
 
   return (
     <div>
-      <label>Select Time:</label>
-      <select value={selectedTime} onChange={(e) => onTimeChange(e.target.value)}>
-        <option value="">Select</option>
+      <h2 style={{ fontSize: "18px", marginBottom: "8px", display: "block" }}>
+        Select Time:
+      </h2>
+      <StyledSelect value={selectedTime} onChange={(e) => onTimeChange(e.target.value)}>
+        <option value=''>Select</option>
         {timeSlots.map((slot) => (
           <option key={slot} value={slot}>
             {slot}
           </option>
         ))}
-      </select>
+      </StyledSelect>
     </div>
   );
 };
