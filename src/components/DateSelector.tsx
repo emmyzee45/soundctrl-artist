@@ -19,9 +19,9 @@ const DateSelector: React.FC<DateSelectorProps> = ({ selectedDate, onDateChange 
             onDateChange(date);
           }
         }}
-        value={calendarDate} // Use single Date or null instead of Date[] or null
-        showNavigation // Show navigation buttons for selecting different months and years
-        selectRange={false} // Disable the range selection feature
+        value={calendarDate} 
+        showNavigation 
+        selectRange={false} 
       />
     </div>
   );
