@@ -11,7 +11,7 @@ export const makeRequest = axios.create({
 const axiosInstance = axios.create({
   baseURL: HOST_API,
 });
-
+// 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
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
