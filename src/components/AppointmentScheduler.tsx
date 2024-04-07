@@ -49,9 +49,8 @@ const AppointmentScheduler: React.FC = () => {
       </Grid>
       {selectedDate && selectedTime && (
         <div>
-          Selected Date: {selectedDate.toLocaleDateString()}
-          <br />
-          Selected Time: {selectedTime}
+          <h5>Selected Date: {selectedDate.toLocaleDateString()}</h5>
+          <h5>Selected Time: {selectedTime}</h5>
         </div>
       )}
     </StyledPaper>
