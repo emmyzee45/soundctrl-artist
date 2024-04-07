@@ -5,6 +5,7 @@ export type ArtistCardType = {
   handle: string;
 };
 
+<<<<<<< HEAD
 export type UserProps = {
   username?: string, 
   email?: string,
@@ -53,6 +54,8 @@ export interface FansProps extends UserProp {
   subscribedUsers: any[],
 }
 
+=======
+>>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
 export type ArtistCommunityCardType = {
   image: string;
   name: string;

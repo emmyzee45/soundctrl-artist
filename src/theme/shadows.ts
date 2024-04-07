@@ -1,5 +1,5 @@
 // @mui
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/system';
 import { Shadows } from '@mui/material/styles/shadows';
 //
 import palette from './palette';

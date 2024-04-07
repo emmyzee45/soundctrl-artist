@@ -1,6 +1,12 @@
 import { ElementType } from 'react';
 // @mui
+<<<<<<< HEAD
 import { alpha, styled } from '@mui/material/styles';
+=======
+import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/system';
+
+>>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
 import {
   LinkProps,
   ListItemText,

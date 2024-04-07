@@ -328,6 +328,7 @@ export default function ProfileSettings() {
               onChange={(e) => setAvatarImg(e.target.files?.[0])}
               hidden
             />
+            <Avatar src={User} alt='user avatar' sx={{ borderRadius: 1, width: 65, height: 65 }} />
             <Stack spacing={1}>
               <Typography variant='subtitle2'>Avatar</Typography>
               <Typography variant='subtitle2' sx={{ width: "35ch" }}>
@@ -362,6 +363,20 @@ export default function ProfileSettings() {
               onChange={(e) => setBannerImg(e.target.files?.[0])}
               hidden
             />
+            </Stack>
+          </Stack>
+          <Stack direction='row' spacing={2}>
+            <IconButton
+              sx={{
+                bgcolor: "rgba(34, 34, 34, 1)",
+                borderRadius: 2,
+                padding: 2,
+                width: 65,
+                height: 65,
+              }}
+            >
+              <Icon icon='ic:round-plus' color='white' />
+            </IconButton>
             <Stack spacing={1}>
               <Typography variant='subtitle2'>Banner</Typography>
               <Typography variant='subtitle2' sx={{ width: "35ch" }}>
@@ -402,7 +417,8 @@ export default function ProfileSettings() {
                 Sound supports.jpg, .png, and . gif files up to 10MB. Recommended size is 600 x
                 600px
               </Typography>
-            in</Stack>
+            </Stack>
+            </Stack>
           </Stack>
           <Paper
             elevation={0}

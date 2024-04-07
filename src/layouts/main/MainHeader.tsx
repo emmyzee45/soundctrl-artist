@@ -50,8 +50,8 @@ const ToolbarShadowStyle = styled("div")(({ theme }) => ({
 
 export default function MainHeader() {
   const dispatch = useAppDispatch();
-  const isOffset = useOffSetTop(HEADER.MAIN_DESKTOP_HEIGHT);
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const isOffset = useOffSetTop(HEADER.MAIN_DESKTOP_HEIGHT);
 
   const theme = useTheme();
 
