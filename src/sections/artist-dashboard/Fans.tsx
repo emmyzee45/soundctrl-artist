@@ -3,8 +3,7 @@ import { Icon } from "@iconify/react";
 import { Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { User } from "assets";
-import { ArtistFanCard } from "components/cards";
-import { ARTISTFANCARDS } from "data";
+import ArtistFanCard from "../../components/cards/ArtistFanCard";
 import { useAppSelector } from "../../redux/hooks";
 
 const ContentStyle = styled("div")(({ theme }) => ({

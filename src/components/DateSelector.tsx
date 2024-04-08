@@ -1,5 +1,5 @@
 import React from "react";
-import Calendar from "react-calendar";
+// import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
 interface DateSelectorProps {
@@ -10,7 +10,7 @@ interface DateSelectorProps {
 const DateSelector: React.FC<DateSelectorProps> = ({ selectedDate, onDateChange }) => {
   return (
     <div>
-      <Calendar
+      {/* <Calendar
         onChange={(date) => {
           if (date instanceof Date) {
             onDateChange(date);
@@ -19,7 +19,7 @@ const DateSelector: React.FC<DateSelectorProps> = ({ selectedDate, onDateChange 
         value={selectedDate}
         showNavigation
         selectRange={false}
-      />
+      /> */}
     </div>
   );
 };

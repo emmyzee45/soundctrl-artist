@@ -2,8 +2,10 @@
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { User } from "assets";
-import { AcceptedTicketCard, ArtistFanCard, LocationListCard } from "components/cards";
-import { ARTISTFANCARDS } from "data";
+import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
+import ArtistFanCard from "../../components/cards/ArtistFanCard";
+import LocationListCard from "../../components/cards/LocationListCard";
+// import { ARTISTFANCARDS } from "data";
 import { useAppSelector } from "../../redux/hooks";
 
 const ContentStyle = styled("div")(({ theme }) => ({

@@ -4,8 +4,8 @@ import { styled } from "@mui/material/styles";
 import Image from "components/Image";
 import { Icon } from "@iconify/react";
 import { Time } from "assets";
-import { AcceptedTicketCard } from "components/cards";
-import AppointmentScheduler from "components/AppointmentScheduler";
+import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
+import AppointmentScheduler from "../../components/AppointmentScheduler";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
