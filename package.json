@@ -7,18 +7,12 @@
     "@emotion/styled": "^11.6.0",
     "@hookform/resolvers": "^2.8.5",
     "@iconify/react": "^3.1.0",
-<<<<<<< HEAD
     "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.60",
     "@mui/material": "^5.2.4",
     "@mui/x-date-pickers": "^6.12.1",
     "@reduxjs/toolkit": "^2.2.2",
-=======
-    "@mui/lab": "^5.0.0-alpha.60",
-    "@mui/material": "^5.2.4",
     "@mui/system": "^5.15.14",
-    "@mui/x-date-pickers": "^6.12.1",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^14.1.1",
@@ -28,10 +22,7 @@
     "date-fns": "^2.27.0",
     "dayjs": "^1.11.9",
     "emoji-mart": "^5.5.2",
-<<<<<<< HEAD
     "firebase": "^10.10.0",
-=======
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "framer-motion": "^10.16.1",
     "highlight.js": "^11.8.0",
     "history": "^5.2.0",
@@ -46,11 +37,8 @@
     "nprogress": "^0.2.0",
     "numeral": "^2.0.6",
     "react": "^18.2.0",
-<<<<<<< HEAD
-=======
     "react-calendar": "^4.8.0",
     "react-datepicker": "^6.6.0",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.4.2",
     "react-hook-form": "^7.45.4",
@@ -59,15 +47,10 @@
     "react-intersection-observer": "^8.33.1",
     "react-lazy-load-image-component": "^1.6.0",
     "react-markdown": "^8.0.7",
-<<<<<<< HEAD
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.15.0",
-    "react-slick": "^0.29.0",
     "redux-persist": "^6.0.0",
-=======
-    "react-router-dom": "^6.15.0",
     "react-slick": "^0.29.0",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "rehype-raw": "^6.1.1",
     "simplebar-react": "^3.2.4",
     "slick-carousel": "^1.8.1",
@@ -80,11 +63,7 @@
     "zustand": "^4.5.0"
   },
   "scripts": {
-<<<<<<< HEAD
     "start": "react-scripts start",
-=======
-    "start": "GENERATE_SOURCEMAP=false craco start",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "winStart": "set \"GENERATE_SOURCEMAP=false\" && craco start",
     "build": "craco build",
     "test": "craco test --passWithNoTests --watchAll=false",
@@ -97,25 +76,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
-<<<<<<< HEAD
     "@craco/craco": "^7.1.0",
-=======
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@craco/craco": "^7.0.0",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "@types/emoji-mart": "^3.0.4",
-    "@types/insert-css": "^2.0.1",
-    "@types/jest": "^26.0.24",
-    "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.171",
     "@types/node": "^12.20.11",
     "@types/nprogress": "^0.2.0",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.0",
-<<<<<<< HEAD
-=======
     "@types/react-datepicker": "^6.2.0",
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
     "@types/react-dom": "^18.0.0",
     "@types/react-input-mask": "^3.0.1",
     "@types/react-lazy-load-image-component": "^1.5.3",
