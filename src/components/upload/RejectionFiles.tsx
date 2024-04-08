@@ -1,6 +1,6 @@
 import { FileRejection } from 'react-dropzone';
 // @mui
-import { alpha } from '@mui/material/styles';
+import { alpha } from '@mui/system';
 import { Box, Paper, Typography } from '@mui/material';
 // type
 import { CustomFile } from './type';

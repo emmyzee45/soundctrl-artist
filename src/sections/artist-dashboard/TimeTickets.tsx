@@ -5,6 +5,7 @@ import Image from "components/Image";
 import { Icon } from "@iconify/react";
 import { Time } from "assets";
 import { AcceptedTicketCard } from "components/cards";
+import AppointmentScheduler from "components/AppointmentScheduler";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -45,6 +46,7 @@ export default function TimeTickets() {
       >
         my time
       </Typography>
+      <AppointmentScheduler />
       {/* Time setup design here */}
       {/* <Image src={Time} alt='time' /> */}
       <Box sx={{ my: 5 }}>
