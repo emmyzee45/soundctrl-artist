@@ -6,6 +6,10 @@ import { Icon } from "@iconify/react";
 import { Time } from "assets";
 import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
 import AppointmentScheduler from "../../components/AppointmentScheduler";
+import { useEffect, useState } from "react";
+import { makeRequest } from "../../utils/axios";
+import { BookingProps } from "@types";
+import { useAppSelector } from "../../redux/hooks";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -15,6 +19,22 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function TimeTickets() {
+  const [bookings, setBookings] = useState<BookingProps[] | null>(null)
+
+  const user = useAppSelector((state) => state.user.currentUser);
+
+  useEffect(() => {
+    const getTicketBooking = async() => {
+      try {
+        const res = await makeRequest.get(`/bookings/${user?._id}`);
+        setBookings(res.data)
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getTicketBooking();
+  }, [])
+
   return (
     <ContentStyle>
       <Typography
@@ -73,7 +93,14 @@ export default function TimeTickets() {
           Time booking SCHEDULES
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          <AcceptedTicketCard />
+          {bookings?.map((item) => (
+            <AcceptedTicketCard 
+              link={item.link}
+              time={item.time}
+              price={item.price}
+              _id={item._id}
+            />
+          ))}
         </Box>
       </Box>
     </ContentStyle>

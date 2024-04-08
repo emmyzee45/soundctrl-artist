@@ -2,9 +2,10 @@
 import { Box, Button, Grid, Stack, Typography, Tab, Tabs } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "components/Image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Payout } from "assets";
+import { makeRequest } from "utils/axios";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -47,11 +48,54 @@ function a11yProps(index: number) {
 }
 
 export default function Earnings() {
+  const [totalEarning, setTotalEarning] = useState<number>(0);
+  const [bookingEarning, setBookingEarning] = useState<number>(0);
+  const [subscriptionEarning, setSubscriptionEarning] = useState<number>(0);
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const getOrders = async() => {
+      try {
+        const res = await makeRequest.get("/orders");
+        let total = 0;
+        res.data.map((item: any) => {
+          total += item.price;
+        })
+        setTotalEarning(total);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getOrders();
+  },[])
+
+  useEffect(() => {
+    const getSubscriptionEarning = async() => {
+      try {
+        const res = await makeRequest.get("/orders/subscription");
+        setSubscriptionEarning(res.data);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getSubscriptionEarning();
+  },[])
+
+  useEffect(() => {
+    const getBookingEarning = async() => {
+      try {
+        const res = await makeRequest.get("/orders/booking");
+        setBookingEarning(res.data)
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getBookingEarning();
+  },[])
 
   return (
     <ContentStyle>
@@ -119,7 +163,7 @@ export default function Earnings() {
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
                   Amount:
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${totalEarning}</Typography>
               </Stack>
             </Stack>
             <Stack
@@ -135,9 +179,9 @@ export default function Earnings() {
               </Stack>
               <Stack direction='row' spacing={1}>
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-                  Amount:
+                  Amount: 
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${subscriptionEarning}</Typography>
               </Stack>
             </Stack>
             <Stack
@@ -155,7 +199,7 @@ export default function Earnings() {
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
                   Amount:
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${bookingEarning}</Typography>
               </Stack>
             </Stack>
           </Stack>

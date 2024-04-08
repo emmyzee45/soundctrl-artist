@@ -12,6 +12,13 @@ export type UserProps = {
   confirmPassword?: string,
 }
 
+export type BookingProps = {
+  _id: string,
+  time: string,
+  link: string,
+  price: number
+}
+
 export interface UserProp {
   username?: string,
   email?: string,
