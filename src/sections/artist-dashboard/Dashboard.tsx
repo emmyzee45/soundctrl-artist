@@ -1,7 +1,7 @@
 // @mui
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { User } from "assets";
+// import { User } from "assets";
 import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
 import ArtistFanCard from "../../components/cards/ArtistFanCard";
 import LocationListCard from "../../components/cards/LocationListCard";
@@ -58,6 +58,7 @@ export default function Dashboard() {
             </Stack>
             {filteredFans?.splice(0, 4).map((item, index) => (
               <ArtistFanCard
+              key={item.key}
                 _id={item._id}
                 avatarImg={item.avatarImg}
                 username={item.username}
@@ -120,6 +121,7 @@ export default function Dashboard() {
           <Stack justifyContent='space-between' direction='row' flexWrap='wrap' gap={2} marginY={3}>
             {bookings?.map((item) => (
               <AcceptedTicketCard 
+                key={item.key}
                 link={item.link}
                 time={item.time}
                 price={item.price}
