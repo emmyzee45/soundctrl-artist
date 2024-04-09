@@ -38,21 +38,22 @@ const AppointmentScheduler: React.FC = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TimeIntervalSelector onIntervalChange={handleIntervalChange} />
-        </Grid>
-        <Grid item xs={12}>
-          <TimeSelector
-            selectedTime={selectedTime}
-            onTimeChange={handleTimeChange}
-            timeInterval={timeInterval}
-          />
+          <Grid item xs={12}>
+            <TimeSelector
+              selectedTime={selectedTime}
+              onTimeChange={handleTimeChange}
+              timeInterval={timeInterval}
+            />
+          </Grid>
+          {selectedDate && selectedTime && (
+            <div>
+              <h5>
+                Scheduled time: {selectedDate.toLocaleDateString()} {selectedTime}
+              </h5>
+            </div>
+          )}
         </Grid>
       </Grid>
-      {selectedDate && selectedTime && (
-        <div>
-          <h5>Selected Date: {selectedDate.toLocaleDateString()}</h5>
-          <h5>Selected Time: {selectedTime}</h5>
-        </div>
-      )}
     </StyledPaper>
   );
 };
