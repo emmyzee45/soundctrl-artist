@@ -28,7 +28,7 @@
     "spaced-comment": "error",
     "quotes": [
       "error",
-      "double"
+      "single"
     ],
     "import/extensions": "off",
     "no-duplicate-imports": "error",
