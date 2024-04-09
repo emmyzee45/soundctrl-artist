@@ -1,3 +1,5 @@
+import { Key } from "react";
+
 export type ArtistCardType = {
   image: string;
   avatar: string;
@@ -13,6 +15,7 @@ export type UserProps = {
 }
 
 export type BookingProps = {
+  key: Key | null | undefined;
   _id: string,
   time: string,
   link: string,
@@ -57,6 +60,7 @@ export interface userState {
 }
 
 export interface FansProps extends UserProp {
+  key: Key | null | undefined;
   subscribedUsers: any[],
 }
 
