@@ -8,7 +8,7 @@ interface TimeSelectorProps {
 }
 
 const StyledSelect = styled("select")({
-  width: "30%", 
+  width: "50%",
   padding: "8px",
   fontSize: "16px",
   border: "1px solid #ccc",
