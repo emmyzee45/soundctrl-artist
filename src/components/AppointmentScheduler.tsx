@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Paper, Grid } from "@mui/material";
-import { alpha, Theme, useTheme, styled } from "@mui/material/styles";
+import { Paper, Grid, Button } from "@mui/material";
+import { alpha, styled } from "@mui/material/styles";
 import DateSelector from "./DateSelector";
 import TimeSelector from "./TimeSelector";
 import TimeIntervalSelector from "./TimeIntervalSelector";
@@ -11,11 +11,12 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const AppointmentScheduler: React.FC = () => {
-  const theme = useTheme<Theme>();
+  // const theme = useTheme<Theme>();
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [timeInterval, setTimeInterval] = useState<number>(15);
+  const [scheduleSaved, setScheduleSaved] = useState<boolean>(false);
 
   const handleDateChange = (date: Date | null) => {
     setSelectedDate(date);
@@ -27,6 +28,11 @@ const AppointmentScheduler: React.FC = () => {
 
   const handleIntervalChange = (interval: number) => {
     setTimeInterval(interval);
+  };
+
+  const handleSaveSchedule = () => {
+    // Logic to save the schedule <Emmy>
+    setScheduleSaved(true);
   };
 
   return (
@@ -48,10 +54,35 @@ const AppointmentScheduler: React.FC = () => {
           {selectedDate && selectedTime && (
             <div>
               <h5>
-                Scheduled time: {selectedDate.toLocaleDateString()} {selectedTime}
+                {selectedDate.toLocaleDateString()} {selectedTime}
               </h5>
             </div>
           )}
+
+          <Grid>
+            <a href='#' style={{ textDecoration: "none", marginTop: "20px" }}>
+              <Button
+                variant='contained'
+                size='large'
+                sx={{
+                  bgcolor: scheduleSaved ? "common.white" : "common.black",
+                  color: scheduleSaved ? "common.black" : "common.white",
+                  width: "fit-content",
+                  boxShadow: "none",
+                  marginTop: "10px",
+                  textTransform: "uppercase",
+                  border: scheduleSaved ? "1px solid black" : "none",
+                  ":hover": {
+                    bgcolor: scheduleSaved ? "common.white" : "common.black",
+                    color: "rgba(253, 147, 76, 1)",
+                  },
+                }}
+                onClick={handleSaveSchedule}
+              >
+                {scheduleSaved ? "CHANGE MY SCHEDULE" : "SAVE THIS SCHEDULE"}
+              </Button>
+            </a>
+          </Grid>
         </Grid>
       </Grid>
     </StyledPaper>
