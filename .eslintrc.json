@@ -28,6 +28,7 @@
     "spaced-comment": "error",
     "quotes": [
       "error",
+      "single",
       "double"
     ],
     "import/extensions": "off",
