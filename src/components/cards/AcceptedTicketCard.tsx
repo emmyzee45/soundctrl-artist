@@ -3,11 +3,11 @@ import { BookingProps } from "@types";
 import { TicketOne } from "assets";
 import Image from "components/Image";
 import { useAppSelector } from "../../redux/hooks";
+import { RootState } from "redux/store";
 
 
-
-export default function AcceptedTicketCard({link, time, price }: BookingProps) {
-  const user = useAppSelector((state) => state.user.currentUser);
+export default function AcceptedTicketCard({ link, time, price }: BookingProps) {
+  const user = useAppSelector((state: RootState) => state.user.currentUser);
   return (
     <Box sx={{ bgcolor: "common.white", borderRadius: 2, mb: 2 }}>
       <Image src={TicketOne} alt='ticket image' />
