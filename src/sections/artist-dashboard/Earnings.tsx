@@ -9,8 +9,8 @@ import { makeRequest } from "utils/axios";
 import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { useParams } from "react-router-dom";
-import CheckOutForm from "./CheckOutForm";
-import "./Earning.css"
+// import CheckOutForm from "./CheckOutForm";
+// import "./Earning.css"
 
 const stripeKey: string = process.env.REACT_APP_STRIPE_KEY || '';
 
@@ -237,14 +237,14 @@ export default function Earnings() {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          {/* <Image src={Payout} alt='payout' /> */}
-          {clientSecret ? (
+          <Image src={Payout} alt='payout' />
+          {/* {clientSecret ? (
             <Elements options={options} stripe={stripePromise}>
               <CheckOutForm />
             </Elements>
           ): (
             <button>Pay Out</button>
-          )}
+          )} */}
         </CustomTabPanel>
       </Box>
     </ContentStyle>
