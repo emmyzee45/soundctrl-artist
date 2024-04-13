@@ -43,6 +43,10 @@ export default function CheckOutForm() {
     const handleSubmit = async(e) => {
         e.preventDefault();
 
+        if(!stripe || !elements) {
+            return
+        }
+
         setIsLoading(true);
 
         const { error } = stripe.confirmPayment({
