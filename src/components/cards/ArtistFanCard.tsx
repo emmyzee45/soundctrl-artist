@@ -1,5 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> main
 import { ArtistFanCardType, UserProp } from "@types";
 import Avatar from "components/Avatar";
 
@@ -11,6 +14,7 @@ export default function ArtistFanCard({ avatarImg, username, points }: UserProp)
         <Box>
           <Typography variant='subtitle1' sx={{ color: "common.black" }}>
             {username}
+<<<<<<< HEAD
 =======
 import { ArtistFanCardType } from "@types";
 import Avatar from "components/Avatar";
@@ -24,6 +28,8 @@ export default function ArtistFanCard({ avatar, name, points, date }: ArtistFanC
           <Typography variant='subtitle1' sx={{ color: "common.black" }}>
             {name}
 >>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
+=======
+>>>>>>> main
           </Typography>
           <Typography variant='subtitle2' sx={{ color: "common.black" }}>
             {points} fan experience points
@@ -31,10 +37,14 @@ export default function ArtistFanCard({ avatar, name, points, date }: ArtistFanC
         </Box>
         <Typography variant='subtitle2' sx={{ color: "grey.600" }}>
 <<<<<<< HEAD
+<<<<<<< HEAD
           {/* {date} */}Join since 09,2023
 =======
           {date}
 >>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
+=======
+          {/* {date} */}Join since 09,2023
+>>>>>>> main
         </Typography>
       </Stack>
     </Stack>

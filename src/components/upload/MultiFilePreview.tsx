@@ -1,11 +1,7 @@
 import isString from 'lodash/isString';
 import { m, AnimatePresence } from 'framer-motion';
 // @mui
-<<<<<<< HEAD
-import { alpha } from '@mui/material/styles';
-=======
 import { alpha } from '@mui/system';
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
 import { List, Stack, Button, IconButton, ListItemText, ListItem } from '@mui/material';
 // utils
 import { fData } from '../../utils/formatNumber';

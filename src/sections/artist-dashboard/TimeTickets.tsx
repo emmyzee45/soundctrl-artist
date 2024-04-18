@@ -1,11 +1,14 @@
 // @mui
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Image from "components/Image";
 import { Icon } from "@iconify/react";
-import { Time } from "assets";
-import { AcceptedTicketCard } from "components/cards";
-import AppointmentScheduler from "components/AppointmentScheduler";
+import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
+import AppointmentScheduler from "../../components/AppointmentScheduler";
+import { useEffect, useState } from "react";
+import { makeRequest } from "../../utils/axios";
+import { BookingProps } from "@types";
+import { useAppSelector } from "../../redux/hooks";
+import MyPricing from "./MyPricing";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -15,6 +18,9 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function TimeTickets() {
+  const user = useAppSelector((state) => state.user.currentUser);
+  const bookings = useAppSelector((state) => state.booking.bookings);
+
   return (
     <ContentStyle>
       <Typography
@@ -60,6 +66,9 @@ export default function TimeTickets() {
         >
           MY PRICING
         </Typography>
+        <Box sx={{ width: "30%", my: 5 }}>
+          <MyPricing />
+        </Box>
       </Box>
       <Box sx={{ my: 5 }}>
         <Typography
@@ -73,7 +82,17 @@ export default function TimeTickets() {
           Time booking SCHEDULES
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          <AcceptedTicketCard />
+          {bookings?.map((item) => (
+            <AcceptedTicketCard
+              key={item.key}
+              link={item.link}
+              time={item.time}
+              price={item.price}
+              _id={item._id}
+              meetingId={item?.meetingId}
+              artistId={item.artistId}
+            />
+          ))}
         </Box>
       </Box>
     </ContentStyle>

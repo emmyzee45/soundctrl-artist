@@ -1,14 +1,9 @@
 import { ElementType } from 'react';
 // @mui
-<<<<<<< HEAD
-import { alpha, styled } from '@mui/material/styles';
-import { Button, Popover, ButtonProps, LinkProps } from '@mui/material';
-=======
 import { styled } from '@mui/material/styles';
 import { Button, Popover, ButtonProps, LinkProps } from '@mui/material';
 import { alpha } from '@mui/system';
 
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
 // config
 import { NAVBAR } from '../../../config';
 

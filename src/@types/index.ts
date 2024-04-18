@@ -1,3 +1,5 @@
+import { Key } from "react";
+
 export type ArtistCardType = {
   image: string;
   avatar: string;
@@ -5,12 +7,21 @@ export type ArtistCardType = {
   handle: string;
 };
 
-<<<<<<< HEAD
 export type UserProps = {
   username?: string, 
   email?: string,
   password?: string,
   confirmPassword?: string,
+}
+
+export type BookingProps = {
+  key: Key | null | undefined;
+  _id: string,
+  time: string,
+  link: string,
+  price: number,
+  meetingId: string,
+  artistId: string,
 }
 
 export interface UserProp {
@@ -51,11 +62,10 @@ export interface userState {
 }
 
 export interface FansProps extends UserProp {
+  key: Key | null | undefined;
   subscribedUsers: any[],
 }
 
-=======
->>>>>>> 907b60ac692199d52a0dfdb2db536c01a786ca99
 export type ArtistCommunityCardType = {
   image: string;
   name: string;

@@ -1,10 +1,20 @@
 // @mui
-import { Box, Button, Grid, Stack, Typography, Tab, Tabs } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography, Tab, Tabs, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "components/Image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Payout } from "assets";
+import { makeRequest } from "utils/axios";
+import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
+import { useAppSelector } from "../../redux/hooks";
+// import CheckOutForm from "./CheckOutForm";
+// import "./Earning.css"
+
+const stripeKey: string = process.env.REACT_APP_STRIPE_KEY || '';
+
+const stripePromise: Promise<Stripe | null> = loadStripe(stripeKey)
+console.log(process.env.REACT_APP_STRIPE_KEY)
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -48,10 +58,76 @@ function a11yProps(index: number) {
 
 export default function Earnings() {
   const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
+  const [totalEarning, setTotalEarning] = useState<number>(0);
+  const [bookingEarning, setBookingEarning] = useState<number>(0);
+  const [subscriptionEarning, setSubscriptionEarning] = useState<number>(0);
+
+  const user = useAppSelector((state) => state.user.currentUser);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+
+  const appearance: Appearance = {
+    theme: "stripe",
+  }
+
+
+  useEffect(() => {
+    const getOrders = async() => {
+      try {
+        const res = await makeRequest.get("/orders");
+        let total = 0;
+        res.data.map((item: any) => {
+          total += item.price;
+        })
+        setTotalEarning(total);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getOrders();
+  },[])
+
+  useEffect(() => {
+    const getSubscriptionEarning = async() => {
+      try {
+        const res = await makeRequest.get("/orders/subscription");
+        setSubscriptionEarning(res.data);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getSubscriptionEarning();
+  },[])
+
+  useEffect(() => {
+    const getBookingEarning = async() => {
+      try {
+        const res = await makeRequest.get("/orders/booking");
+        setBookingEarning(res.data)
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getBookingEarning();
+  },[])
+
+
+  const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
+      const res = await makeRequest.post("/orders/transfer", {amount, artist_id: user?._id});
+      
+    }catch(err) {
+      console.log(err);
+    }
+
+  }
 
   return (
     <ContentStyle>
@@ -119,7 +195,7 @@ export default function Earnings() {
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
                   Amount:
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${totalEarning}</Typography>
               </Stack>
             </Stack>
             <Stack
@@ -135,9 +211,9 @@ export default function Earnings() {
               </Stack>
               <Stack direction='row' spacing={1}>
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-                  Amount:
+                  Amount: 
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${subscriptionEarning}</Typography>
               </Stack>
             </Stack>
             <Stack
@@ -155,13 +231,32 @@ export default function Earnings() {
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
                   Amount:
                 </Typography>
-                <Typography variant='subtitle1'>$323,000</Typography>
+                <Typography variant='subtitle1'>${bookingEarning}</Typography>
               </Stack>
             </Stack>
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Image src={Payout} alt='payout' />
+          <form>
+            {/* <input type="text" placeholder="Stripe Account ID" /> */}
+            <InputBase 
+              // type="text" 
+              placeholder="Amount" 
+              onChange={(e)=>setAmount(e.target.value)}
+            />
+            <button onClick={handleSubmit}>Withdraw</button>
+          </form>
+          {/* https://docs.stripe.com/api/transfers/retrieve */}
+          {/* https://docs.stripe.com/connect/separate-charges-and-transfers */}
+          {/* https://docs.stripe.com/connect/express-accounts */}
+          {/* {clientSecret ? (
+            <Elements options={options} stripe={stripePromise}>
+              <CheckOutForm />
+            </Elements>
+          ): (
+            <button>Pay Out</button>
+          )} */}
+          {/* <GoogleLoginButton /> */}
         </CustomTabPanel>
       </Box>
     </ContentStyle>

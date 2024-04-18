@@ -1,6 +1,8 @@
 import { useState, useEffect, ElementType } from 'react';
 import { NavLink as RouterLink, useLocation } from 'react-router-dom';
-import { alpha, styled } from '@mui/material/styles';
+// @mui
+import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/system';
 
 import {
   Box,

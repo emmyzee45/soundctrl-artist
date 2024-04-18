@@ -1,10 +1,16 @@
 // @mui
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { User } from "assets";
-import { AcceptedTicketCard, ArtistFanCard, LocationListCard } from "components/cards";
-import { ARTISTFANCARDS } from "data";
-import { useAppSelector } from "../../redux/hooks";
+// import { User } from "assets";
+import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
+import ArtistFanCard from "../../components/cards/ArtistFanCard";
+import LocationListCard from "../../components/cards/LocationListCard";
+// import { ARTISTFANCARDS } from "data";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { makeRequest } from "utils/axios";
+import { useEffect, useState } from "react";
+import { BookingProps } from "@types";
+import { getBookingFailure, getBookingStart, getBookingSuccess } from "../../redux/slice/BookingSlice";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -14,9 +20,28 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Dashboard() {
+  // const [bookings, setBookings] = useState<BookingProps[] | null>(null)
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.currentUser);
   const fans = useAppSelector((state) => state.fan.fans);
+  const bookings = useAppSelector((state) => state.booking.bookings)
   const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
+  
+  useEffect(() => {
+    const getTicketBooking = async() => {
+      dispatch(getBookingStart())
+      try {
+        const res = await makeRequest.get(`/bookings/${user?._id}`);
+        dispatch(getBookingSuccess(res.data));
+      }catch(err) {
+        console.log(err);
+        dispatch(getBookingFailure())
+      }
+    }
+    getTicketBooking();
+  }, [])
+
+  console.log(bookings)
 
   return (
     <ContentStyle>
@@ -38,6 +63,7 @@ export default function Dashboard() {
             </Stack>
             {filteredFans?.splice(0, 4).map((item, index) => (
               <ArtistFanCard
+              key={item.key}
                 _id={item._id}
                 avatarImg={item.avatarImg}
                 username={item.username}
@@ -98,11 +124,17 @@ export default function Dashboard() {
             <Button sx={{ color: "common.black" }}>see all</Button>
           </Stack>
           <Stack justifyContent='space-between' direction='row' flexWrap='wrap' gap={2} marginY={3}>
-            <AcceptedTicketCard />
-            <AcceptedTicketCard />
-            <AcceptedTicketCard />
-            <AcceptedTicketCard />
-            <AcceptedTicketCard />
+            {bookings?.map((item) => (
+              <AcceptedTicketCard 
+                key={item.key}
+                link={item.link}
+                time={item.time}
+                price={item.price}
+                _id={item._id}
+                meetingId={item.meetingId}
+                artistId={item.artistId}
+              />
+            ))}
           </Stack>
         </Box>
       </Stack>
