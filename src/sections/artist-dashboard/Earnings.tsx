@@ -8,7 +8,6 @@ import { Payout } from "assets";
 import { makeRequest } from "utils/axios";
 import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
 import { useAppSelector } from "../../redux/hooks";
-import GoogleLoginButton from "components/GoogleLoginButton";
 // import CheckOutForm from "./CheckOutForm";
 // import "./Earning.css"
 

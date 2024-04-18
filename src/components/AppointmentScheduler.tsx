@@ -5,7 +5,6 @@ import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import TimeSelector from "./TimeSelector";
 import { gapi } from "gapi-script";
-import GoogleLoginButton from "./GoogleLoginButton";
 import TimeIntervalSelector from "./TimeIntervalSelector";
 import { useGoogleLogin } from "react-google-login";
 import { start } from "nprogress";
@@ -156,7 +155,7 @@ const AppointmentScheduler: React.FC = () => {
                 }}
                 onClick={signIn}
               >
-                {scheduleSaved ? "CHANGE MY SCHEDULE" : "SAVE THIS SCHEDULE"}
+                SAVE THIS SCHEDULE
               </Button>
             </a>
           </Grid>
