@@ -14,7 +14,6 @@ import { useAppSelector } from "../../redux/hooks";
 const stripeKey: string = process.env.REACT_APP_STRIPE_KEY || '';
 
 const stripePromise: Promise<Stripe | null> = loadStripe(stripeKey)
-console.log(process.env.REACT_APP_STRIPE_KEY)
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
