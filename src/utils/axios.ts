@@ -10,6 +10,7 @@ export const makeRequest = axios.create({
 })
 const axiosInstance = axios.create({
   baseURL: HOST_API,
+  withCredentials: true
 });
 // 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
 axiosInstance.interceptors.response.use(
