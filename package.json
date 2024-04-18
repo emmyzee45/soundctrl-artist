@@ -12,6 +12,8 @@
     "@mui/lab": "^5.0.0-alpha.60",
     "@mui/material": "^5.2.4",
     "@mui/x-date-pickers": "^6.12.1",
+    "@stripe/react-stripe-js": "^2.7.0",
+    "@stripe/stripe-js": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
@@ -71,6 +73,7 @@
     "eject": "craco eject",
     "refine": "refine"
   },
+  
   "browserslist": [
     ">0.2%",
     "not dead",

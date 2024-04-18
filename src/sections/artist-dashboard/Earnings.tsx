@@ -6,6 +6,16 @@ import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import { Payout } from "assets";
 import { makeRequest } from "utils/axios";
+import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { useParams } from "react-router-dom";
+// import CheckOutForm from "./CheckOutForm";
+// import "./Earning.css"
+
+const stripeKey: string = process.env.REACT_APP_STRIPE_KEY || '';
+
+const stripePromise: Promise<Stripe | null> = loadStripe(stripeKey)
+console.log(process.env.REACT_APP_STRIPE_KEY)
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -52,9 +62,18 @@ export default function Earnings() {
   const [bookingEarning, setBookingEarning] = useState<number>(0);
   const [subscriptionEarning, setSubscriptionEarning] = useState<number>(0);
   const [value, setValue] = useState(0);
+  const [clientSecret, setClientSecret] = useState("");
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+
+  const appearance: Appearance = {
+    theme: "stripe",
+  }
+  const options: StripeElementsOptions = {
+    clientSecret: clientSecret || undefined,
+    appearance,
   };
 
   useEffect(() => {
@@ -95,6 +114,19 @@ export default function Earnings() {
       }
     }
     getBookingEarning();
+  },[])
+
+  useEffect(() => {
+    const createPaymentIntent = async() => {
+      try {
+        const res = await makeRequest.post(`/orders/create-payment-intent`);
+        console.log(res.data)
+        setClientSecret(res.data.clientSecret)
+      }catch(err) {
+        console.log(err)
+      }
+    }
+    createPaymentIntent();
   },[])
 
   return (
@@ -206,6 +238,13 @@ export default function Earnings() {
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Image src={Payout} alt='payout' />
+          {/* {clientSecret ? (
+            <Elements options={options} stripe={stripePromise}>
+              <CheckOutForm />
+            </Elements>
+          ): (
+            <button>Pay Out</button>
+          )} */}
         </CustomTabPanel>
       </Box>
     </ContentStyle>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Paper, Grid, Button } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
-import DateSelector from "./DateSelector";
+import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import TimeSelector from "./TimeSelector";
 import TimeIntervalSelector from "./TimeIntervalSelector";
 
@@ -11,15 +12,17 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 const AppointmentScheduler: React.FC = () => {
-  // const theme = useTheme<Theme>();
-
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<any>(null);
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [timeInterval, setTimeInterval] = useState<number>(15);
   const [scheduleSaved, setScheduleSaved] = useState<boolean>(false);
 
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+  const handleDateChange = (date: Date | Date[] | null) => {
+    if (Array.isArray(date)) {
+      setSelectedDate(date[0]);
+    } else {
+      setSelectedDate(date);
+    }
   };
 
   const handleTimeChange = (time: string) => {
@@ -35,12 +38,19 @@ const AppointmentScheduler: React.FC = () => {
     setScheduleSaved(true);
   };
 
+  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString() : "";
+  const formattedTime = selectedTime ? selectedTime : "";
+
   return (
     <StyledPaper>
-      <h2>Appointment Scheduler</h2>
+      <h2>
+        Appointment Scheduler
+      </h2>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <DateSelector selectedDate={selectedDate} onDateChange={handleDateChange} />
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DateCalendar<Date> value={selectedDate} onChange={handleDateChange} />
+          </LocalizationProvider>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TimeIntervalSelector onIntervalChange={handleIntervalChange} />
@@ -54,7 +64,7 @@ const AppointmentScheduler: React.FC = () => {
           {selectedDate && selectedTime && (
             <div>
               <h5>
-                {selectedDate.toLocaleDateString()} {selectedTime}
+                {formattedDate} {formattedTime}
               </h5>
             </div>
           )}
