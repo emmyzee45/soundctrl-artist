@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Stack, Typography, TextField, useMediaQuery, Theme } from "@mui/material";
 import { TicketOne } from "assets";
 import Image from "components/Image";
@@ -20,6 +20,7 @@ export default function MyPricing() {
     setIsTextFieldDisabled(false);
     setButtonText("Confirm"); 
   };
+
 
   const [buttonText, setButtonText] = useState("Confirm");
 

@@ -1,5 +1,5 @@
 // @mui
-import { Box, Button, Grid, Stack, Typography, Tab, Tabs } from "@mui/material";
+import { Box, Button, Grid, Stack, Typography, Tab, Tabs, InputBase } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Image from "components/Image";
 import { useEffect, useState } from "react";
@@ -7,8 +7,8 @@ import { Icon } from "@iconify/react";
 import { Payout } from "assets";
 import { makeRequest } from "utils/axios";
 import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-import { useParams } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
+import GoogleLoginButton from "components/GoogleLoginButton";
 // import CheckOutForm from "./CheckOutForm";
 // import "./Earning.css"
 
@@ -58,23 +58,24 @@ function a11yProps(index: number) {
 }
 
 export default function Earnings() {
+  const [value, setValue] = useState(0);
+  const [amount, setAmount] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
   const [totalEarning, setTotalEarning] = useState<number>(0);
   const [bookingEarning, setBookingEarning] = useState<number>(0);
   const [subscriptionEarning, setSubscriptionEarning] = useState<number>(0);
-  const [value, setValue] = useState(0);
-  const [clientSecret, setClientSecret] = useState("");
+
+  const user = useAppSelector((state) => state.user.currentUser);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+
   const appearance: Appearance = {
     theme: "stripe",
   }
-  const options: StripeElementsOptions = {
-    clientSecret: clientSecret || undefined,
-    appearance,
-  };
+
 
   useEffect(() => {
     const getOrders = async() => {
@@ -116,18 +117,18 @@ export default function Earnings() {
     getBookingEarning();
   },[])
 
-  useEffect(() => {
-    const createPaymentIntent = async() => {
-      try {
-        const res = await makeRequest.post(`/orders/create-payment-intent`);
-        console.log(res.data)
-        setClientSecret(res.data.clientSecret)
-      }catch(err) {
-        console.log(err)
-      }
+
+  const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
+      const res = await makeRequest.post("/orders/transfer", {amount, artist_id: user?._id});
+      
+    }catch(err) {
+      console.log(err);
     }
-    createPaymentIntent();
-  },[])
+
+  }
 
   return (
     <ContentStyle>
@@ -237,7 +238,18 @@ export default function Earnings() {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Image src={Payout} alt='payout' />
+          <form>
+            {/* <input type="text" placeholder="Stripe Account ID" /> */}
+            <InputBase 
+              // type="text" 
+              placeholder="Amount" 
+              onChange={(e)=>setAmount(e.target.value)}
+            />
+            <button onClick={handleSubmit}>Withdraw</button>
+          </form>
+          {/* https://docs.stripe.com/api/transfers/retrieve */}
+          {/* https://docs.stripe.com/connect/separate-charges-and-transfers */}
+          {/* https://docs.stripe.com/connect/express-accounts */}
           {/* {clientSecret ? (
             <Elements options={options} stripe={stripePromise}>
               <CheckOutForm />
@@ -245,6 +257,7 @@ export default function Earnings() {
           ): (
             <button>Pay Out</button>
           )} */}
+          {/* <GoogleLoginButton /> */}
         </CustomTabPanel>
       </Box>
     </ContentStyle>

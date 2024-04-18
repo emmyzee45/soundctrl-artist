@@ -12,9 +12,9 @@
     "@mui/lab": "^5.0.0-alpha.60",
     "@mui/material": "^5.2.4",
     "@mui/x-date-pickers": "^6.12.1",
+    "@reduxjs/toolkit": "^2.2.3",
     "@stripe/react-stripe-js": "^2.7.0",
     "@stripe/stripe-js": "^3.3.0",
-    "@reduxjs/toolkit": "^2.2.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^14.1.1",
@@ -28,6 +28,7 @@
     "eslint-config-airbnb-typescript": "^18.0.0",
     "firebase": "^10.10.0",
     "framer-motion": "^10.16.1",
+    "gapi-script": "^1.2.0",
     "highlight.js": "^11.8.0",
     "history": "^5.2.0",
     "i18next": "^20.1.0",
@@ -44,6 +45,7 @@
     "react-calendar": "^4.8.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^11.4.2",
+    "react-google-login": "^5.2.2",
     "react-hook-form": "^7.45.4",
     "react-i18next": "^11.8.11",
     "react-input-mask": "^2.0.4",
@@ -73,7 +75,6 @@
     "eject": "craco eject",
     "refine": "refine"
   },
-  
   "browserslist": [
     ">0.2%",
     "not dead",

@@ -27,7 +27,7 @@
   "rules": {
     "spaced-comment": "error",
     "quotes": [
-      "error",
+      // "error",
       "single",
       "double"
     ],

@@ -19,7 +19,9 @@ export type BookingProps = {
   _id: string,
   time: string,
   link: string,
-  price: number
+  price: number,
+  meetingId: string,
+  artistId: string,
 }
 
 export interface UserProp {

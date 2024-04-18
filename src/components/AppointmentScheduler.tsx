@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Paper, Grid, Button } from "@mui/material";
 import { alpha, styled } from "@mui/material/styles";
 import { DateCalendar, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import TimeSelector from "./TimeSelector";
+import { gapi } from "gapi-script";
+import GoogleLoginButton from "./GoogleLoginButton";
 import TimeIntervalSelector from "./TimeIntervalSelector";
+import { useGoogleLogin } from "react-google-login";
+import { start } from "nprogress";
+import { makeRequest } from "utils/axios";
+import Notification from "./Notification";
+import { useAppDispatch } from "../redux/hooks";
+import { addBookingFailure, addBookingStart, addBookingSuccess } from "../redux/slice/BookingSlice";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -16,6 +24,29 @@ const AppointmentScheduler: React.FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>("");
   const [timeInterval, setTimeInterval] = useState<number>(15);
   const [scheduleSaved, setScheduleSaved] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
+
+  const dispatch = useAppDispatch();
+
+  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString() : "";
+  const formattedTime = selectedTime ? selectedTime : "";
+  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || "";
+  const scope = "https://www.googleapis.com/auth/calendar";
+
+  useEffect(() => {
+    const start: any = () => {
+      gapi.client.init({
+        clientId: clientId,
+        scope
+      })
+      // const accessToken = gapi.auth.getToken();
+    }
+
+    gapi.load("client:auth2", start)
+    // const access = gapi.auth.getToken();
+    // console.log(access)
+  },  [clientId])
 
   const handleDateChange = (date: Date | Date[] | null) => {
     if (Array.isArray(date)) {
@@ -33,13 +64,49 @@ const AppointmentScheduler: React.FC = () => {
     setTimeInterval(interval);
   };
 
-  const handleSaveSchedule = () => {
+  const onSuccess = (res: any) => {
+    console.log(res)
+    handleSaveSchedule(res.tokenObj)
+  }
+
+  const onFailure = (res: any) => {
+    // console.log(res)
+  }
+
+  const handleSaveSchedule = async(accessToken: string | null) => {
     // Logic to save the schedule <Emmy>
     setScheduleSaved(true);
+    const startTime = selectedTime.split("-")[0];
+    const endTime = selectedTime.split("-")[1];
+    const input = {
+      start: `${0+formattedDate} ${startTime.trim()}`, 
+      end: `${0+formattedDate} ${endTime.trim()}`, 
+      accessToken 
+    }
+    console.log(input)
+    dispatch(addBookingStart())
+    try {
+      const res = await makeRequest.post("/bookings/", {
+        start: `${0+formattedDate} ${startTime.trim()}`, 
+        end: `${0+formattedDate} ${endTime.trim()}`, 
+        accessToken
+      });
+      dispatch(addBookingSuccess(res.data))
+      setMessage("Appointment successfully scheduled!");
+      setShow(true);
+    }catch(err) {
+      console.log(err);
+      dispatch(addBookingFailure())
+    }
   };
-
-  const formattedDate = selectedDate ? new Date(selectedDate).toLocaleDateString() : "";
-  const formattedTime = selectedTime ? selectedTime : "";
+  
+  const { signIn, loaded } = useGoogleLogin({
+    onSuccess,
+    onFailure,
+    clientId,
+    scope,
+  });
+  
 
   return (
     <StyledPaper>
@@ -64,7 +131,7 @@ const AppointmentScheduler: React.FC = () => {
           {selectedDate && selectedTime && (
             <div>
               <h5>
-                {formattedDate} {formattedTime}
+                0{formattedDate} {formattedTime}
               </h5>
             </div>
           )}
@@ -87,12 +154,17 @@ const AppointmentScheduler: React.FC = () => {
                     color: "rgba(253, 147, 76, 1)",
                   },
                 }}
-                onClick={handleSaveSchedule}
+                onClick={signIn}
               >
                 {scheduleSaved ? "CHANGE MY SCHEDULE" : "SAVE THIS SCHEDULE"}
               </Button>
             </a>
           </Grid>
+          <Notification 
+            show={show}
+            setShow={setShow}
+            message={message}
+          />
         </Grid>
       </Grid>
     </StyledPaper>

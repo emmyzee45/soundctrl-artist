@@ -3,7 +3,7 @@ import axios from 'axios';
 import { HOST_API } from '../config';
 
 // ----------------------------------------------------------------------
-// ec2-18-234-121-45.compute-1.amazonaws.com
+// ec2-100-24-244-112.compute-1.amazonaws.com
 export const makeRequest = axios.create({
   baseURL: "http://localhost:4000/api/",
   withCredentials: true

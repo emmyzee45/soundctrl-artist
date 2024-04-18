@@ -18,21 +18,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function TimeTickets() {
-  const [bookings, setBookings] = useState<BookingProps[] | null>(null);
-
   const user = useAppSelector((state) => state.user.currentUser);
-
-  useEffect(() => {
-    const getTicketBooking = async () => {
-      try {
-        const res = await makeRequest.get(`/bookings/${user?._id}`);
-        setBookings(res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getTicketBooking();
-  }, []);
+  const bookings = useAppSelector((state) => state.booking.bookings);
 
   return (
     <ContentStyle>
@@ -102,6 +89,8 @@ export default function TimeTickets() {
               time={item.time}
               price={item.price}
               _id={item._id}
+              meetingId={item?.meetingId}
+              artistId={item.artistId}
             />
           ))}
         </Box>

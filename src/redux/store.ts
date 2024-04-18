@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./slice/UserSlice";
 import fansReducer from "./slice/FansSlice"
+import bookingReducer from "./slice/BookingSlice"
 import {
   persistStore,
   persistReducer,
@@ -22,6 +23,7 @@ const persistConfig = {
 const rootReducer = combineReducers({ 
   user: userReducer, 
   fan: fansReducer,
+  booking: bookingReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

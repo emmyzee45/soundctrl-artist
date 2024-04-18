@@ -6,10 +6,11 @@ import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
 import ArtistFanCard from "../../components/cards/ArtistFanCard";
 import LocationListCard from "../../components/cards/LocationListCard";
 // import { ARTISTFANCARDS } from "data";
-import { useAppSelector } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { makeRequest } from "utils/axios";
 import { useEffect, useState } from "react";
 import { BookingProps } from "@types";
+import { getBookingFailure, getBookingStart, getBookingSuccess } from "../../redux/slice/BookingSlice";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -19,18 +20,22 @@ const ContentStyle = styled("div")(({ theme }) => ({
 }));
 
 export default function Dashboard() {
-  const [bookings, setBookings] = useState<BookingProps[] | null>(null)
+  // const [bookings, setBookings] = useState<BookingProps[] | null>(null)
+  const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.currentUser);
   const fans = useAppSelector((state) => state.fan.fans);
+  const bookings = useAppSelector((state) => state.booking.bookings)
   const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
   
   useEffect(() => {
     const getTicketBooking = async() => {
+      dispatch(getBookingStart())
       try {
         const res = await makeRequest.get(`/bookings/${user?._id}`);
-        setBookings(res.data)
+        dispatch(getBookingSuccess(res.data));
       }catch(err) {
         console.log(err);
+        dispatch(getBookingFailure())
       }
     }
     getTicketBooking();
@@ -126,6 +131,8 @@ export default function Dashboard() {
                 time={item.time}
                 price={item.price}
                 _id={item._id}
+                meetingId={item.meetingId}
+                artistId={item.artistId}
               />
             ))}
           </Stack>
