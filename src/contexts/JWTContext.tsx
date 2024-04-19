@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useReducer } from 'react';
 // utils
-import axios from '../utils/axios';
+// import axios from '../utils/axios';
 import { isValidToken, setSession } from '../utils/jwt';
 // @types
 import { ActionMap, AuthState, AuthUser, JWTContextType } from '../@types/auth';
@@ -88,16 +88,16 @@ function AuthProvider({ children }: AuthProviderProps) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          // const response = await axios.get('/api/account/my-account');
+          // const { user } = response.data;
 
-          dispatch({
-            type: Types.Initial,
-            payload: {
-              isAuthenticated: true,
-              user,
-            },
-          });
+          // dispatch({
+          //   type: Types.Initial,
+          //   payload: {
+          //     isAuthenticated: true,
+          //     user,
+          //   },
+          // });
         } else {
           dispatch({
             type: Types.Initial,
@@ -123,37 +123,37 @@ function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
+    // const response = await axios.post('/api/account/login', {
+    //   email,
+    //   password,
+    // });
+    // const { accessToken, user } = response.data;
 
-    setSession(accessToken);
-    dispatch({
-      type: Types.Login,
-      payload: {
-        user,
-      },
-    });
+    // setSession(accessToken);
+    // dispatch({
+    //   type: Types.Login,
+    //   payload: {
+    //     user,
+    //   },
+    // });
   };
 
   const register = async (email: string, password: string, firstName: string, lastName: string) => {
-    const response = await axios.post('/api/account/register', {
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    const { accessToken, user } = response.data;
+    // const response = await axios.post('/api/account/register', {
+    //   email,
+    //   password,
+    //   firstName,
+    //   lastName,
+    // });
+    // const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
-    dispatch({
-      type: Types.Register,
-      payload: {
-        user,
-      },
-    });
+    // window.localStorage.setItem('accessToken', accessToken);
+    // dispatch({
+    //   type: Types.Register,
+    //   payload: {
+    //     user,
+    //   },
+    // });
   };
 
   const logout = async () => {

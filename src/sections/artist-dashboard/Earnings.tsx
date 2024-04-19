@@ -8,6 +8,7 @@ import { Payout } from "assets";
 import { makeRequest } from "utils/axios";
 import { loadStripe, Stripe, StripeElementsOptions, Appearance } from "@stripe/stripe-js";
 import { useAppSelector } from "../../redux/hooks";
+import axios from "axios";
 // import CheckOutForm from "./CheckOutForm";
 // import "./Earning.css"
 
@@ -106,7 +107,16 @@ export default function Earnings() {
   useEffect(() => {
     const getBookingEarning = async() => {
       try {
-        const res = await makeRequest.get("/orders/booking");
+        const res = await axios.get("http://ec2-100-24-244-112.compute-1.amazonaws.com/api/orders/booking", 
+          {
+            withCredentials: true,
+            headers: {
+              'Access-Control-Allow-Origin': '*', 
+              'Content-Type': 'application/json'
+          }
+          }, 
+          
+        );
         setBookingEarning(res.data)
       }catch(err) {
         console.log(err);
@@ -120,7 +130,16 @@ export default function Earnings() {
     e.preventDefault();
 
     try {
-      const res = await makeRequest.post("/orders/transfer", {amount, artist_id: user?._id});
+      const res = await axios.post("http://ec2-100-24-244-112.compute-1.amazonaws.com/api/orders/transfer", 
+      {amount, artist_id: user?._id},
+      {
+        withCredentials: true,
+        headers : {
+          "Access-Control-Allow-Origin": "*",
+          "Content-Type": "application/json"
+        }
+      }
+    );
       
     }catch(err) {
       console.log(err);

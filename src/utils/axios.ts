@@ -8,14 +8,13 @@ export const makeRequest = axios.create({
   baseURL: "http://ec2-100-24-244-112.compute-1.amazonaws.com/api/",
   withCredentials: true
 })
-const axiosInstance = axios.create({
-  baseURL: HOST_API,
-  withCredentials: true
-});
+// const axiosInstance = axios.create({
+//   baseURL: HOST_API,
+//   withCredentials: true
+// });
 
-axiosInstance.interceptors.response.use(
-  (response) => response,
-  (error) => Promise.reject((error.response && error.response.data) || 'Something went wrong')
-);
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   (error) => Promise.reject((error.response &&Home
 
-export default axiosInstance;
+// export default axiosInstance;

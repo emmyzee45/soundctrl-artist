@@ -44,7 +44,7 @@ export default function HomeHero() {
           superfans
         </Typography>
         <Stack direction='row' spacing={2}>
-          <Link to='/invite' style={{ textDecoration: "none" }}>
+          <Link to='/login' style={{ textDecoration: "none" }}>
             <Button
               variant='contained'
               size='large'
@@ -64,7 +64,8 @@ export default function HomeHero() {
             </Button>
           </Link>
 
-          <a href='https://forms.gle/6VQubbMuw2Wc9y9x9' target='_blank' rel='noopener'>
+          {/* <a href='https://forms.gle/6VQubbMuw2Wc9y9x9' target='_blank' rel='noopener'> */}
+          <Link to="/register">
             <Button
               variant='contained'
               size='large'
@@ -82,7 +83,8 @@ export default function HomeHero() {
             >
               Apply to join the waitlist
             </Button>
-          </a>
+          </Link>
+          {/* </a> */}
         </Stack>
       </Stack>
     </ContentStyle>

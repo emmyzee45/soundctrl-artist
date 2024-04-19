@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { UserProps } from "@types";
+import Notification from "components/Notification";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { makeRequest } from "utils/axios";
@@ -31,6 +32,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Register() {
   const [input, setInput] = useState<UserProps | null>(null);
+  const [show, setShow] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const navigate = useNavigate();
 
@@ -41,18 +44,35 @@ export default function Register() {
     })
   }
 
+  // const res = await fetch("/auth/register", {
+  //   method: "POST",
+  //   'credentials': 'same-origin',
+  //   headers: {
+  //     'Accept': "application/json",
+  //     'Content-Type': "application/json"
+  //   },
+  //   body: JSON.stringify({...input, isArtist: true })
+  // });
+
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const res = await makeRequest.post("/auth/register", input);
-      res.status == 200 && navigate("/login");
-    }catch(err) {
-      console.log(err);
+      const res = await makeRequest.post("/auth/register", {...input, isArtist: true });
+      setMessage("Account successfully created!");
+      setShow(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000)
+    }catch(err: any) {
+      if(!err?.response) {
+        setMessage("No server response");
+      } else if(err.response.status === 400) {
+        setMessage("Account with this email already exist")
+      } else {
+        setMessage("Internal server error");
+      }
+      setShow(true)
     }
   }
-
-  useEffect(() => {
-    console.log(process.env.REACT_APP_BASE_URL);
-  }, []);
 
   return (
     <RootStyle>
@@ -180,7 +200,7 @@ export default function Register() {
                 boxShadow: "none",
               }}
             >
-              Login
+              Create
             </Button>
           </Stack>
           <Divider>Or Register with</Divider>
@@ -197,6 +217,11 @@ export default function Register() {
             <Button size='large' sx={{ bgcolor: "common.black", paddingInline: 4 }}>
               <Icon icon='ri:apple-fill' color='white' />
             </Button>
+            <Notification 
+              show={show}
+              setShow={setShow}
+              message={message}
+            />
           </Stack>
         </Stack>
       </ContentStyle>

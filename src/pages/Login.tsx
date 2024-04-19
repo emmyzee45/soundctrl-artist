@@ -19,6 +19,7 @@ import { useAppDispatch } from "../redux/hooks";
 import { getUserFailure, getUserStart, getUserSuccess } from "../redux/slice/UserSlice";
 import { makeRequest } from "../utils/axios";
 import Notification from "components/Notification";
+import axios from "axios";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -53,9 +54,13 @@ export default function Login() {
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(getUserStart())
     try {
-      const res = await makeRequest.post("/auth/login", input);
-      dispatch(getUserSuccess(res.data))
-      navigate(from, {replace: true});
+      const res = await axios.post("http://ec2-100-24-244-112.compute-1.amazonaws.com/api/auth/login", input, {withCredentials: true, headers: { "Access-Conntrol-Allow-Origin": "*", "Content-Type": "application/json"}});
+      dispatch(getUserSuccess(res.data));
+      setMessage("Successfully logged In");
+      setShow(true);
+      setTimeout(() =>{
+        navigate(from, {replace: true});
+      },1000)
     }catch(err: any) {
       if(!err?.response) {
         setMessage("No server response");
