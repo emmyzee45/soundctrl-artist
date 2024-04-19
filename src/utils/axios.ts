@@ -5,7 +5,7 @@ import { HOST_API } from '../config';
 // ----------------------------------------------------------------------
 // ec2-100-24-244-112.compute-1.amazonaws.com
 export const makeRequest = axios.create({
-  baseURL: "http://localhost:4000/api/",
+  baseURL: "http://ec2-100-24-244-112.compute-1.amazonaws.com/api/",
   withCredentials: true
 })
 const axiosInstance = axios.create({
