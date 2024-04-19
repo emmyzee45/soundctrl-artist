@@ -8,6 +8,8 @@ import { gapi } from "gapi-script";
 import TimeIntervalSelector from "./TimeIntervalSelector";
 import { useGoogleLogin } from "react-google-login";
 import { start } from "nprogress";
+import {auth, googleProvider } from "../firebase"
+import { signInWithPopup } from "firebase/auth"
 import { makeRequest } from "utils/axios";
 import Notification from "./Notification";
 import { useAppDispatch } from "../redux/hooks";
@@ -72,7 +74,30 @@ const AppointmentScheduler: React.FC = () => {
     // console.log(res)
   }
 
-  const handleSaveSchedule = async(accessToken: string | null) => {
+  const handleTest = () => {
+    signInWithPopup(auth, googleProvider)
+      .then((result: any) => {
+        console.log(result)
+        handleSaveSchedule({access_token: result?.user?.accessToken, scope })
+        // makeRequest
+        //   .post("/auth/login/social", {
+        //     username: result.user.displayName,
+        //     email: result.user.email,
+        //     avatarImg: result.user.photoURL,
+        //     loginPlatform: "Google"
+        //   })
+        //   .then((res) => {
+        //     console.log(res)
+        //     dispatch(loginSuccess(res.data));
+        //     navigate(from, { replace: true })
+        //   });
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleSaveSchedule = async(accessToken: any) => {
     // Logic to save the schedule <Emmy>
     setScheduleSaved(true);
     const startTime = selectedTime.split("-")[0];
@@ -139,6 +164,7 @@ const AppointmentScheduler: React.FC = () => {
             <a href='#' style={{ textDecoration: "none", marginTop: "20px" }}>
               <Button
                 variant='contained'
+                disabled={!selectedTime || !selectedDate}
                 size='large'
                 sx={{
                   bgcolor: scheduleSaved ? "common.white" : "common.black",

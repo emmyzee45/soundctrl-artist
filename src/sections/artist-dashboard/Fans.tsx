@@ -51,6 +51,7 @@ export default function Fans() {
       <Stack justifyContent='space-between' flexWrap='wrap' gap={2}>
         {filteredFans?.map((item, index) => (
           <ArtistFanCard
+            key={item._id}
             _id={item._id}
             username={item.username}
             avatarImg={item.avatarImg}
