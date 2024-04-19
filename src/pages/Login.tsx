@@ -53,7 +53,7 @@ export default function Login() {
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(getUserStart())
     try {
-      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}auth/login`, input);
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/login`, input);
       axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
       dispatch(getUserSuccess(res.data.userInfo));
       localStorage.setItem("access_token", res.data.token);
