@@ -17,7 +17,7 @@ import MenuDesktop from "./MenuDesktop";
 import MenuMobile from "./MenuMobile";
 import navConfig from "./MenuConfig";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { makeRequest } from "../../utils/axios";
+import { userRequest } from "../../utils/axios";
 import { logoutUserFailure, logoutUserStart, logoutUserSuccess } from "../../redux/slice/UserSlice";
 
 // ----------------------------------------------------------------------
@@ -64,7 +64,7 @@ export default function MainHeader() {
   const handleLogout = async(e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(logoutUserStart())
     try {
-      await makeRequest.post("/auth/logout");
+      await userRequest.post("/auth/logout");
       dispatch(logoutUserSuccess())
     }catch(err) {
       dispatch(logoutUserFailure())

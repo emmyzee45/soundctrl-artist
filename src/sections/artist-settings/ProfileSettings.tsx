@@ -22,10 +22,10 @@ import { Icon } from "@iconify/react";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { useEffect, useState } from "react";
 import { FileProps } from "@types";
-import { makeRequest } from "../../utils/axios";
 import { updatetUserFailure, updatetUserStart, updatetUserSuccess } from "../../redux/slice/UserSlice";
 import Notification from "../../components/Notification";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // components
 
@@ -142,7 +142,7 @@ export default function ProfileSettings() {
     }
     dispatch(updatetUserStart())
     try {
-      const res = await makeRequest.put(`/users/${user?._id}`, input);
+      const res = await axios.put(`${process.env.REACT_APP_BASE_URL}/users/${user?._id}`, input);
       dispatch(updatetUserSuccess(res.data));
       setMessage("Successfully saved!");
       setShow(true)

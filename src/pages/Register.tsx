@@ -13,10 +13,10 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { UserProps } from "@types";
+import axios from "axios";
 import Notification from "components/Notification";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { makeRequest } from "utils/axios";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -56,7 +56,7 @@ export default function Register() {
 
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const res = await makeRequest.post("/auth/register", {...input, isArtist: true });
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/register`, {...input, isArtist: true });
       setMessage("Account successfully created!");
       setShow(true);
       setTimeout(() => {

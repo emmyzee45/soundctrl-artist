@@ -17,7 +17,6 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
 import { getUserFailure, getUserStart, getUserSuccess } from "../redux/slice/UserSlice";
-import { makeRequest } from "../utils/axios";
 import Notification from "components/Notification";
 import axios from "axios";
 
@@ -54,8 +53,10 @@ export default function Login() {
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(getUserStart())
     try {
-      const res = await axios.post("http://ec2-100-24-244-112.compute-1.amazonaws.com/api/auth/login", input, {withCredentials: true, headers: { "Access-Conntrol-Allow-Origin": "*", "Content-Type": "application/json"}});
-      dispatch(getUserSuccess(res.data));
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}auth/login`, input);
+      axios.defaults.headers.common.Authorization = `Bearer ${res.data.token}`;
+      dispatch(getUserSuccess(res.data.userInfo));
+      localStorage.setItem("access_token", res.data.token);
       setMessage("Successfully logged In");
       setShow(true);
       setTimeout(() =>{

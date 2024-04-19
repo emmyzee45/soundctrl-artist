@@ -7,10 +7,10 @@ import ArtistFanCard from "../../components/cards/ArtistFanCard";
 import LocationListCard from "../../components/cards/LocationListCard";
 // import { ARTISTFANCARDS } from "data";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { makeRequest } from "utils/axios";
 import { useEffect, useState } from "react";
 import { BookingProps } from "@types";
 import { getBookingFailure, getBookingStart, getBookingSuccess } from "../../redux/slice/BookingSlice";
+import axios from "axios";
 
 const ContentStyle = styled("div")(({ theme }) => ({
   margin: "auto",
@@ -31,7 +31,7 @@ export default function Dashboard() {
     const getTicketBooking = async() => {
       dispatch(getBookingStart())
       try {
-        const res = await makeRequest.get(`/bookings/${user?._id}`);
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/bookings/${user?._id}`);
         dispatch(getBookingSuccess(res.data));
       }catch(err) {
         console.log(err);
@@ -41,7 +41,6 @@ export default function Dashboard() {
     getTicketBooking();
   }, [])
 
-  console.log(bookings)
 
   return (
     <ContentStyle>

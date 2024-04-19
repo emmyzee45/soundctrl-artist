@@ -5,7 +5,6 @@ import { Icon } from "@iconify/react";
 import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
 import AppointmentScheduler from "../../components/AppointmentScheduler";
 import { useEffect, useState } from "react";
-import { makeRequest } from "../../utils/axios";
 import { BookingProps } from "@types";
 import { useAppSelector } from "../../redux/hooks";
 import MyPricing from "./MyPricing";

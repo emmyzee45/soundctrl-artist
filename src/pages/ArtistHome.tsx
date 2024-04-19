@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useAppDispatch } from "../redux/hooks";
 import { getFansSuccess } from "../redux/slice/FansSlice";
 import { Benefits, HomeHero } from "sections/aritst-home";
-import { makeRequest } from "../utils/axios";
+import axios from "axios";
 // sections
 
 // ---------------------------------------------------------------------
@@ -22,7 +22,7 @@ export default function ArtistHome() {
   useEffect(() => {
     const getFans = async() => {
       try {
-        const res = await makeRequest.get("/users/fans");
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/users/fans`);
         dispatch(getFansSuccess(res.data));
       }catch(err) {
         console.log(err);

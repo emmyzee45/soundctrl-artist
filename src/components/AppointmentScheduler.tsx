@@ -10,7 +10,7 @@ import { useGoogleLogin } from "react-google-login";
 import { start } from "nprogress";
 import {auth, googleProvider } from "../firebase"
 import { signInWithPopup } from "firebase/auth"
-import { makeRequest } from "utils/axios";
+import { userRequest } from "utils/axios";
 import Notification from "./Notification";
 import { useAppDispatch } from "../redux/hooks";
 import { addBookingFailure, addBookingStart, addBookingSuccess } from "../redux/slice/BookingSlice";
@@ -79,7 +79,7 @@ const AppointmentScheduler: React.FC = () => {
       .then((result: any) => {
         console.log(result)
         handleSaveSchedule({access_token: result?.user?.accessToken, scope })
-        // makeRequest
+        // userRequest
         //   .post("/auth/login/social", {
         //     username: result.user.displayName,
         //     email: result.user.email,
@@ -110,7 +110,7 @@ const AppointmentScheduler: React.FC = () => {
     console.log(input)
     dispatch(addBookingStart())
     try {
-      const res = await makeRequest.post("/bookings/", {
+      const res = await userRequest.post("/bookings/", {
         start: `${0+formattedDate} ${startTime.trim()}`, 
         end: `${0+formattedDate} ${endTime.trim()}`, 
         accessToken
