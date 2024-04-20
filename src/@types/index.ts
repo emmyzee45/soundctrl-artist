@@ -22,6 +22,7 @@ export type BookingProps = {
   price: number,
   meetingId: string,
   artistId: string,
+  status?: string,
 }
 
 export interface UserProp {
@@ -46,6 +47,7 @@ export interface UserProp {
   points?: number,
   address?: string,
   apple?: string,
+  earnings?: {subscriptions: number | 0, bookings: number | 0, total: number | 0},
 };
 
 export type FileProps = {

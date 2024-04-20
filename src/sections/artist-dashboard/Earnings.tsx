@@ -59,11 +59,14 @@ export default function Earnings() {
   const [value, setValue] = useState(0);
   const [amount, setAmount] = useState("");
   const [clientSecret, setClientSecret] = useState("");
-  const [totalEarning, setTotalEarning] = useState<number>(0);
-  const [bookingEarning, setBookingEarning] = useState<number>(0);
-  const [subscriptionEarning, setSubscriptionEarning] = useState<number>(0);
+  const [totalEarning, setTotalEarning] = useState<number | undefined>(0);
+  const [bookingEarning, setBookingEarning] = useState<number | undefined>(0);
+  const [subscriptionEarning, setSubscriptionEarning] = useState<number | undefined>(0);
 
   const user = useAppSelector((state) => state.user.currentUser);
+
+  // const bookings = user?.earnings?.bookings;
+  // const subscriptions = user?.earnings?.subscriptions;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -73,6 +76,14 @@ export default function Earnings() {
   const appearance: Appearance = {
     theme: "stripe",
   }
+
+  useEffect(() => {
+    if(user) {
+      setBookingEarning(user?.earnings?.bookings);
+      setSubscriptionEarning(user?.earnings?.subscriptions);
+      setTotalEarning(user?.earnings?.total);
+    }
+  }, [user])
 
 
   useEffect(() => {
@@ -91,29 +102,29 @@ export default function Earnings() {
     getOrders();
   },[])
 
-  useEffect(() => {
-    const getSubscriptionEarning = async() => {
-      try {
-        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/subscription`);
-        setSubscriptionEarning(res.data);
-      }catch(err) {
-        console.log(err);
-      }
-    }
-    getSubscriptionEarning();
-  },[])
+  // useEffect(() => {
+  //   const getSubscriptionEarning = async() => {
+  //     try {
+  //       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/subscription`);
+  //       setSubscriptionEarning(res.data);
+  //     }catch(err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getSubscriptionEarning();
+  // },[])
 
-  useEffect(() => {
-    const getBookingEarning = async() => {
-      try {
-        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/booking`);
-        setBookingEarning(res.data)
-      }catch(err) {
-        console.log(err);
-      }
-    }
-    getBookingEarning();
-  },[])
+  // useEffect(() => {
+  //   const getBookingEarning = async() => {
+  //     try {
+  //       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/booking`);
+  //       setBookingEarning(res.data)
+  //     }catch(err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   getBookingEarning();
+  // },[])
 
 
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {

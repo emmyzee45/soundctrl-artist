@@ -66,7 +66,6 @@ const AppointmentScheduler: React.FC = () => {
   };
 
   const onSuccess = (res: any) => {
-    console.log(res)
     handleSaveSchedule(res.tokenObj)
   }
 
@@ -74,28 +73,6 @@ const AppointmentScheduler: React.FC = () => {
     // console.log(res)
   }
 
-  const handleTest = () => {
-    signInWithPopup(auth, googleProvider)
-      .then((result: any) => {
-        console.log(result)
-        handleSaveSchedule({access_token: result?.user?.accessToken, scope })
-        // userRequest
-        //   .post("/auth/login/social", {
-        //     username: result.user.displayName,
-        //     email: result.user.email,
-        //     avatarImg: result.user.photoURL,
-        //     loginPlatform: "Google"
-        //   })
-        //   .then((res) => {
-        //     console.log(res)
-        //     dispatch(loginSuccess(res.data));
-        //     navigate(from, { replace: true })
-        //   });
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
 
   const handleSaveSchedule = async(accessToken: any) => {
     // Logic to save the schedule <Emmy>
@@ -107,7 +84,6 @@ const AppointmentScheduler: React.FC = () => {
       end: `${0+formattedDate} ${endTime.trim()}`, 
       accessToken 
     }
-    console.log(input)
     dispatch(addBookingStart())
     try {
       const res = await userRequest.post("/bookings/", {
@@ -116,7 +92,7 @@ const AppointmentScheduler: React.FC = () => {
         accessToken
       });
       dispatch(addBookingSuccess(res.data))
-      setMessage("Appointment successfully scheduled!");
+      setMessage("You have updated your available scheduled from google calendar");
       setShow(true);
     }catch(err) {
       console.log(err);

@@ -4,8 +4,6 @@ import { styled } from "@mui/material/styles";
 import { Icon } from "@iconify/react";
 import AcceptedTicketCard from "../../components/cards/AcceptedTicketCard";
 import AppointmentScheduler from "../../components/AppointmentScheduler";
-import { useEffect, useState } from "react";
-import { BookingProps } from "@types";
 import { useAppSelector } from "../../redux/hooks";
 import MyPricing from "./MyPricing";
 
@@ -18,7 +16,7 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function TimeTickets() {
   const user = useAppSelector((state) => state.user.currentUser);
-  const bookings = useAppSelector((state) => state.booking.bookings);
+  const bookings = useAppSelector((state) => state.booking.bookings.filter((item) => item.status === "sold"));
 
   return (
     <ContentStyle>
@@ -81,7 +79,7 @@ export default function TimeTickets() {
           Time booking SCHEDULES
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          {bookings?.map((item) => (
+          {bookings?.slice(0,6).map((item) => (
             <AcceptedTicketCard
               key={item.key}
               link={item.link}

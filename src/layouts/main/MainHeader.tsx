@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 // @mui
 import { styled, useTheme } from "@mui/material/styles";
 import { Box, Button, AppBar, Toolbar, Container } from "@mui/material";
@@ -19,6 +19,8 @@ import navConfig from "./MenuConfig";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { userRequest } from "../../utils/axios";
 import { logoutUserFailure, logoutUserStart, logoutUserSuccess } from "../../redux/slice/UserSlice";
+import axios from "axios";
+import { useEffect } from "react";
 
 // ----------------------------------------------------------------------
 
@@ -52,6 +54,7 @@ export default function MainHeader() {
   const dispatch = useAppDispatch();
   const isOffset = useOffSetTop(HEADER.MAIN_DESKTOP_HEIGHT);
   const isAuthenticated = useAppSelector((state) => state.user.isAuthenticated);
+  const navigate = useNavigate();
 
   const theme = useTheme();
 
@@ -64,12 +67,22 @@ export default function MainHeader() {
   const handleLogout = async(e: React.MouseEvent<HTMLButtonElement>) => {
     dispatch(logoutUserStart())
     try {
-      await userRequest.post("/auth/logout");
-      dispatch(logoutUserSuccess())
+      await axios.post(`${process.env.REACT_APP_BASE_URL}/auth/logout`);
+      axios.defaults.headers.common.Authorization = "";
+      localStorage.removeItem("access_token");
+      dispatch(logoutUserSuccess());
+      navigate("/login")
     }catch(err) {
       dispatch(logoutUserFailure())
     }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
+    if(token) {
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    }
+  },[])
 
   return (
     <AppBar sx={{ boxShadow: 0, bgcolor: "transparent" }}>

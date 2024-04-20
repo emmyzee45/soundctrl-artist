@@ -21,12 +21,16 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function Dashboard() {
   // const [bookings, setBookings] = useState<BookingProps[] | null>(null)
+  const [openAll, setOpenAll] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.currentUser);
   const fans = useAppSelector((state) => state.fan.fans);
   const bookings = useAppSelector((state) => state.booking.bookings)
   const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
   
+  const handleOpen = () => {
+    setOpenAll(!openAll)
+  }
   useEffect(() => {
     const getTicketBooking = async() => {
       dispatch(getBookingStart())
@@ -120,20 +124,34 @@ export default function Dashboard() {
             >
               Video Call Schedule
             </Typography>
-            <Button sx={{ color: "common.black" }}>see all</Button>
+            <Button onClick={handleOpen} sx={{ color: "common.black" }} >see all</Button>
           </Stack>
           <Stack justifyContent='space-between' direction='row' flexWrap='wrap' gap={2} marginY={3}>
-            {bookings?.map((item) => (
-              <AcceptedTicketCard 
-                key={item.key}
-                link={item.link}
-                time={item.time}
-                price={item.price}
-                _id={item._id}
-                meetingId={item.meetingId}
-                artistId={item.artistId}
-              />
-            ))}
+            { !openAll ? (
+              bookings?.slice(0,6).map((item) => (
+                <AcceptedTicketCard 
+                  key={item.key}
+                  link={item.link}
+                  time={item.time}
+                  price={item.price}
+                  _id={item._id}
+                  meetingId={item.meetingId}
+                  artistId={item.artistId}
+                />
+              ))
+            ): (
+              bookings?.map((item) => (
+                <AcceptedTicketCard 
+                  key={item.key}
+                  link={item.link}
+                  time={item.time}
+                  price={item.price}
+                  _id={item._id}
+                  meetingId={item.meetingId}
+                  artistId={item.artistId}
+                />
+              ))
+            )}
           </Stack>
         </Box>
       </Stack>
