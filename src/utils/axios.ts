@@ -15,15 +15,15 @@ const TOKEN = localStorage.getItem("access_token");
 // console.log(token)
 
 // ec2-100-24-244-112.compute-1.amazonaws.com
-export const publicRequest = axios.create({
-  baseURL: BASE_URL,
-  withCredentials: true
-})
+// export const publicRequest = axios.create({
+//   baseURL: BASE_URL,
+//   withCredentials: true
+// })
 
-export const userRequest = axios.create({
-  baseURL: BASE_URL,
-  headers: { Authorization: `Bearer ${TOKEN}`}
-})
+// export const userRequest = axios.create({
+//   baseURL: BASE_URL,
+//   headers: { Authorization: `Bearer ${TOKEN}`}
+// })
 // const axiosInstance = axios.create({
 //   baseURL: HOST_API,
 //   withCredentials: true

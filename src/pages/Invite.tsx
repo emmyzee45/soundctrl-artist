@@ -1,9 +1,9 @@
 // @mui
 import { Container, Typography, Stack, Paper, InputBase, Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { publicRequest } from "utils/axios";
 
 // ---------------------------------------------------------------------
 
@@ -22,7 +22,7 @@ export default function Invite() {
 
   const handleSubmit = async() => {
     try {
-      const res = await publicRequest.post(`/waitlist/${input}`);
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/waitlist/${input}`);
       res.status === 200 && navigate("/artist-socials", {state: {from: "/code"}, replace: true})
     }catch(err) {
       console.log(err);

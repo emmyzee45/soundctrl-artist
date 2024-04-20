@@ -10,7 +10,6 @@ import { useGoogleLogin } from "react-google-login";
 import { start } from "nprogress";
 import {auth, googleProvider } from "../firebase"
 import { signInWithPopup } from "firebase/auth"
-import { userRequest } from "utils/axios";
 import Notification from "./Notification";
 import { useAppDispatch } from "../redux/hooks";
 import { addBookingFailure, addBookingStart, addBookingSuccess } from "../redux/slice/BookingSlice";

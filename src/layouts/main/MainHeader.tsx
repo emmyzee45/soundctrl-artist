@@ -17,7 +17,6 @@ import MenuDesktop from "./MenuDesktop";
 import MenuMobile from "./MenuMobile";
 import navConfig from "./MenuConfig";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { userRequest } from "../../utils/axios";
 import { logoutUserFailure, logoutUserStart, logoutUserSuccess } from "../../redux/slice/UserSlice";
 import axios from "axios";
 import { useEffect } from "react";
