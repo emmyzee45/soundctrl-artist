@@ -14,6 +14,7 @@ import { userRequest } from "utils/axios";
 import Notification from "./Notification";
 import { useAppDispatch } from "../redux/hooks";
 import { addBookingFailure, addBookingStart, addBookingSuccess } from "../redux/slice/BookingSlice";
+import axios from "axios";
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -86,7 +87,7 @@ const AppointmentScheduler: React.FC = () => {
     }
     dispatch(addBookingStart())
     try {
-      const res = await userRequest.post("/bookings/", {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/bookings/`, {
         start: `${0+formattedDate} ${startTime.trim()}`, 
         end: `${0+formattedDate} ${endTime.trim()}`, 
         accessToken
