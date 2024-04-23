@@ -131,6 +131,7 @@ export default function Dashboard() {
               bookings?.slice(0,6).map((item) => (
                 <AcceptedTicketCard 
                   key={item.key}
+                  date={item.date}
                   link={item.link}
                   time={item.time}
                   price={item.price}
@@ -143,6 +144,7 @@ export default function Dashboard() {
               bookings?.map((item) => (
                 <AcceptedTicketCard 
                   key={item.key}
+                  date={item.date}
                   link={item.link}
                   time={item.time}
                   price={item.price}

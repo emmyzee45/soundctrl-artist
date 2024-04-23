@@ -16,7 +16,9 @@ const ContentStyle = styled("div")(({ theme }) => ({
 
 export default function TimeTickets() {
   const user = useAppSelector((state) => state.user.currentUser);
-  const bookings = useAppSelector((state) => state.booking.bookings.filter((item) => item.status === "sold"));
+  const bookings = useAppSelector((state) => state.booking.bookings);
+  const preparedBookings = bookings.filter((item) => item.status === "prepared");
+  const soldBookings = useAppSelector((state) => state.booking.bookings.filter((item) => item.status === "sold"));
 
   return (
     <ContentStyle>
@@ -64,7 +66,18 @@ export default function TimeTickets() {
           MY PRICING
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          <MyPricing />
+          { preparedBookings.map((item) => (
+            <MyPricing 
+              key={item._id}
+              price={item.price}
+              date={item.date}
+              time={item.time}
+              link={item.link}
+              artistId={item.artistId}
+              meetingId={item.meetingId}
+              _id={item._id}
+            />
+          ))}
         </Box>
       </Box>
       <Box sx={{ my: 5 }}>
@@ -79,12 +92,13 @@ export default function TimeTickets() {
           Time booking SCHEDULES
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          {bookings?.slice(0,6).map((item) => (
+          {soldBookings?.slice(0,6).map((item) => (
             <AcceptedTicketCard
               key={item.key}
               link={item.link}
               time={item.time}
               price={item.price}
+              date={item.date}
               _id={item._id}
               meetingId={item?.meetingId}
               artistId={item.artistId}

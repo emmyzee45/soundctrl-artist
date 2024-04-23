@@ -7,10 +7,9 @@ import axios from "axios";
 import { updateBookingFailure, updateBookingStart, updateBookingSuccess } from "../../redux/slice/BookingSlice";
 import Notification from "components/Notification";
 import { useNavigate } from "react-router-dom";
+import { BookingProps } from "@types";
 
-export default function MyPricing() {
-  const bookings = useAppSelector((state) => state.booking.bookings);
-  const booking = bookings.filter((item) => item.status === "prepared")[0];
+export default function MyPricing(booking: BookingProps) {
   const isSmallScreen = useMediaQuery((theme: Theme) => theme.breakpoints.down("sm"));
   const [price, setPrice] = useState(booking?.price);
   const [message, setMessage] = useState<string>("");
@@ -62,16 +61,16 @@ export default function MyPricing() {
   const [buttonText, setButtonText] = useState("Confirm");
 
   return (
-    <>
-    {booking && (
       <Box sx={{ bgcolor: "common.white", borderRadius: 2, mb: 2 }}>
-      
       <Image src={TicketOne} alt='ticket image' />
       <Stack spacing={1} sx={{ padding: 2, bgcolor: "common.white", borderRadius: 5 }}>
         <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
           My time ticket
           </Typography>
-          <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FD934C" }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+          {booking.date}
+        </Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, color: "#FD934C" }}>
           You can price your own time here.
         </Typography>
         <Stack direction={isSmallScreen ? "column" : "row"} alignItems={isSmallScreen ? "stretch" : "center"} spacing={1}>
@@ -108,7 +107,5 @@ export default function MyPricing() {
         </Stack>
         </Stack>
         </Box>
-      )}
-      </>
       );
     }

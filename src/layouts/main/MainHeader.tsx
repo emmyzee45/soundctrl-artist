@@ -81,6 +81,9 @@ export default function MainHeader() {
     if(token) {
       axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     }
+    // if((token && pathname === "/")) {
+    //   navigate("/artist-dashboard")
+    // }
   },[])
 
   return (

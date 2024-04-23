@@ -20,6 +20,7 @@ export type BookingProps = {
   time: string,
   link: string,
   price: number,
+  date: string,
   meetingId: string,
   artistId: string,
   status?: string,

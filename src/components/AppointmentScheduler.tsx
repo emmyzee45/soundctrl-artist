@@ -79,18 +79,17 @@ const AppointmentScheduler: React.FC = () => {
     setScheduleSaved(true);
     const startTime = selectedTime.split("-")[0];
     const endTime = selectedTime.split("-")[1];
-    const input = {
-      start: `${0+formattedDate} ${startTime.trim()}`, 
-      end: `${0+formattedDate} ${endTime.trim()}`, 
-      accessToken 
-    }
+    
     dispatch(addBookingStart())
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/bookings/`, {
         start: `${0+formattedDate} ${startTime.trim()}`, 
         end: `${0+formattedDate} ${endTime.trim()}`, 
+        time: timeInterval,
+        date:  `0${formattedDate} ${formattedTime}`,
         accessToken
       });
+      console.log(res.data)
       dispatch(addBookingSuccess(res.data))
       setMessage("You have updated your available scheduled from google calendar");
       setShow(true);
@@ -100,11 +99,12 @@ const AppointmentScheduler: React.FC = () => {
     }
   };
   
-  const { signIn, loaded } = useGoogleLogin({
+  const { signIn } = useGoogleLogin({
     onSuccess,
     onFailure,
     clientId,
     scope,
+    uxMode: "popup",
   });
   
 
