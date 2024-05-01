@@ -27,6 +27,7 @@ export default function Dashboard() {
   const fans = useAppSelector((state) => state.fan.fans);
   const bookings = useAppSelector((state) => state.booking.bookings)
   const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
+  const topFans = filteredFans.sort((a:any,b:any)=> b.points - a.points);
   
   const handleOpen = () => {
     setOpenAll(!openAll)
@@ -64,7 +65,7 @@ export default function Dashboard() {
               </Typography>
               <Button sx={{ color: "common.black" }}>see all</Button>
             </Stack>
-            {filteredFans?.splice(0, 4).map((item, index) => (
+            {topFans?.splice(0, 4).map((item, index) => (
               <ArtistFanCard
               key={item.key}
                 _id={item._id}
