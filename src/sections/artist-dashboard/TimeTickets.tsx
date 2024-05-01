@@ -17,8 +17,8 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function TimeTickets() {
   const user = useAppSelector((state) => state.user.currentUser);
   const bookings = useAppSelector((state) => state.booking.bookings);
-  const preparedBookings = bookings.filter((item) => item.status === "prepared");
-  const soldBookings = useAppSelector((state) => state.booking.bookings.filter((item) => item.status === "sold"));
+  const preparedBookings = [...bookings].filter((item) => item.status === "prepared");
+  const soldBookings = [...bookings].filter((item) => item.status === "sold");
 
   return (
     <ContentStyle>

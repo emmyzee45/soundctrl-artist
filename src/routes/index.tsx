@@ -78,7 +78,6 @@ export default function Router() {
       element: <MainLayout />,
       children: [
         { element: <ArtistHomePage />, index: true },
-
         { path: "/artist-home", element: <ArtistHomePage /> },
         { path: "/invite", element: <InvitePage /> },
         { path: "/artist-socials", element: <ArtistSocialsPage /> },

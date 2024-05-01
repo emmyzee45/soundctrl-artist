@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled } from "@mui/material/styles";
 
 interface TimeIntervalSelectorProps {
@@ -18,11 +18,16 @@ const StyledSelect = styled("select")({
 
 const TimeIntervalSelector: React.FC<TimeIntervalSelectorProps> = ({ onIntervalChange }) => {
   const [selectedInterval, setSelectedInterval] = useState<number>(15);
+  const intervalRef = useRef<HTMLSelectElement>(null);
 
   const handleIntervalChange = (interval: number) => {
     setSelectedInterval(interval);
     onIntervalChange(interval);
   };
+
+  useEffect(() => {
+    intervalRef?.current?.focus();
+  },[])
 
   return (
     <div>
@@ -31,6 +36,7 @@ const TimeIntervalSelector: React.FC<TimeIntervalSelectorProps> = ({ onIntervalC
       </h2>
       <StyledSelect
         value={selectedInterval}
+        ref={intervalRef}
         onChange={(e) => handleIntervalChange(parseInt(e.target.value))}
       >
         <option value={15}>15 minutes</option>

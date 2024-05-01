@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { styled } from "@mui/material/styles";
 
 interface TimeSelectorProps {
@@ -42,15 +42,21 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({
       const endTime = `${endHour}:${endMinute.toString().padStart(2, "0")}`;
       const timeSlot = `${startTime} - ${endTime}`;
       timeSlots.push(timeSlot);
-    }
+    };
   }
+
+  const timeRef = useRef<HTMLSelectElement>(null);
+
+  useEffect(() => {
+    timeRef?.current?.focus();
+  },[])
 
   return (
     <div>
       <h2 style={{ fontSize: "18px", marginBottom: "8px", display: "block" }}>
         Select Time:
       </h2>
-      <StyledSelect value={selectedTime} onChange={(e) => onTimeChange(e.target.value)}>
+      <StyledSelect value={selectedTime} ref={timeRef} onChange={(e) => onTimeChange(e.target.value)}>
         <option value=''>Select</option>
         {timeSlots.map((slot) => (
           <option key={slot} value={slot}>

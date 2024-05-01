@@ -1,10 +1,11 @@
 // @mui
 import { Typography, Tabs, Tab, Box, Stack, Grid } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dashboard, Earnings, Fans } from "sections/artist-dashboard";
 import TimeTickets from "sections/artist-dashboard/TimeTickets";
 import ArtistSettings from "./ArtistSettings";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -47,6 +48,14 @@ function a11yProps(index: number) {
 
 export default function ArtistDashboard() {
   const [value, setValue] = useState(0);
+  const location = useLocation();
+  const code = new URLSearchParams(location.search).get("code");
+
+  useEffect(() => {
+    if(code) {
+      setValue(1)
+    }
+  },[code])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
