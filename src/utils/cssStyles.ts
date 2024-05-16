@@ -20,12 +20,12 @@ interface BackgroundImageProps extends BackgroundGradientProps {
   url?: string;
 }
 
-function getDirection(value = 'bottom') {
+function getDirection(value = "bottom") {
   return {
-    top: 'to top',
-    right: 'to right',
-    bottom: 'to bottom',
-    left: 'to left',
+    top: "to top",
+    right: "to right",
+    bottom: "to bottom",
+    left: "to left",
   }[value];
 }
 
@@ -34,7 +34,7 @@ function getDirection(value = 'bottom') {
 export default function cssStyles(theme?: Theme) {
   return {
     bgBlur: (props?: BackgroundBlurProps) => {
-      const color = props?.color || theme?.palette.background.default || '#000000';
+      const color = props?.color || theme?.palette.background.default || "#000000";
 
       const blur = props?.blur || 6;
       const opacity = props?.opacity || 0.8;
@@ -70,3 +70,38 @@ export default function cssStyles(theme?: Theme) {
     },
   };
 }
+
+export const primaryButtonStyles = {
+  bgcolor: "common.black",
+  color: "common.white",
+  boxShadow: "none",
+  ":hover": {
+    bgcolor: "common.black",
+    color: "rgba(253, 147, 76, 1)",
+  },
+};
+
+export const secondaryButtonStyles = {
+  borderRadius: 1,
+  bgcolor: "rgba(253, 147, 76, 1)",
+  color: "common.white",
+  boxShadow: "none",
+
+  ":hover": {
+    bgcolor: "rgba(253, 147, 76, 1)",
+    color: "common.white",
+    borderColor: "rgba(253, 147, 76, 1)",
+  },
+};
+
+export const outlineButtonStyles = {
+  borderColor: "rgba(253, 147, 76, 1)",
+  color: "rgba(253, 147, 76, 1)",
+  boxShadow: "none",
+
+  ":hover": {
+    bgcolor: "rgba(253, 147, 76, 1)",
+    color: "common.white",
+    borderColor: "rgba(253, 147, 76, 1)",
+  },
+};
