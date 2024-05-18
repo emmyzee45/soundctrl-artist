@@ -1,4 +1,3 @@
-
 export type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
     ? {
@@ -28,3 +27,31 @@ export type JWTContextType = {
   logout: () => Promise<void>;
 };
 
+export type EmailType = {
+  email: string;
+};
+
+export type FirstNameType = {
+  firstName: string;
+};
+
+export type LastNameType = {
+  lastName: string;
+};
+export type PasswordType = {
+  password: string;
+  confirmPassword: string;
+};
+
+export type RegisterType = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export type LoginType = {
+  email: string;
+  password: string;
+};

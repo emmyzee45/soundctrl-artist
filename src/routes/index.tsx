@@ -85,6 +85,7 @@ export default function Router() {
         { path: "/artist-settings", element: <ArtistSettingsPage /> },
         { path: "/login", element: <LoginPage /> },
         { path: "/register", element: <RegisterPage /> },
+        { path: "/google/verification", element: <GoogleVerificationPage /> },
       ],
     },
     // { path: '*', element: <Navigate to="/404" replace /> },
@@ -105,3 +106,4 @@ const ArtistDashboardPage = Loadable(lazy(() => import("../pages/ArtistDashboard
 const ArtistSettingsPage = Loadable(lazy(() => import("../pages/ArtistSettings")));
 const LoginPage = Loadable(lazy(() => import("../pages/Login")));
 const RegisterPage = Loadable(lazy(() => import("../pages/Register")));
+const GoogleVerificationPage = Loadable(lazy(() => import("../pages/GoogleVerification")));
