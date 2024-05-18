@@ -116,7 +116,8 @@ const AppointmentScheduler: React.FC = () => {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/bookings`, {
         start: `${0+formattedDate} ${startTime?.trim()}`, 
         end: `${0+formattedDate} ${endTime?.trim()}`, 
-        time: timeInterval,
+        interval: timeInterval,
+        time: selectedTime,
         date:  `0${formattedDate} ${formattedTime}`,
         id: user?._id,
       });
@@ -190,7 +191,6 @@ const AppointmentScheduler: React.FC = () => {
           )}
 
           <Grid>
-            <a href='#' style={{ textDecoration: "none", marginTop: "20px" }}>
               <Button
                 variant='contained'
                 disabled={!selectedTime || !selectedDate}
@@ -212,7 +212,6 @@ const AppointmentScheduler: React.FC = () => {
               >
                 SAVE THIS SCHEDULE
               </Button>
-            </a>
           </Grid>
           <Notification 
             show={show}

@@ -25,7 +25,8 @@ export default function Dashboard() {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.currentUser);
   const fans = useAppSelector((state) => state.fan.fans);
-  const bookings = useAppSelector((state) => state.booking.bookings)
+  const bookings = useAppSelector((state) => state.booking.bookings);
+  const scheduleBookings = [...bookings].filter((booking) => booking.status === "book");
   const filteredFans = [...fans].filter((fan) => user?.subscribedUsers?.includes(fan._id));
   const topFans = filteredFans.sort((a:any,b:any)=> b.points - a.points);
   
@@ -129,7 +130,7 @@ export default function Dashboard() {
           </Stack>
           <Stack justifyContent='space-between' direction='row' flexWrap='wrap' gap={2} marginY={3}>
             { !openAll ? (
-              bookings?.slice(0,6).map((item) => (
+              scheduleBookings?.slice(0,6).map((item) => (
                 <AcceptedTicketCard 
                   key={item.key}
                   date={item.date}
@@ -142,7 +143,7 @@ export default function Dashboard() {
                 />
               ))
             ): (
-              bookings?.map((item) => (
+              scheduleBookings?.map((item) => (
                 <AcceptedTicketCard 
                   key={item.key}
                   date={item.date}

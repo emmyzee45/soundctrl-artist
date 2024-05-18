@@ -156,7 +156,21 @@ export default function ProfileSettings() {
       }
       dispatch(updatetUserFailure());
     }
+  };
+
+  const connectStripe = (url: string) => {
+    window.location.href = url;
   }
+
+  const handleStripeConnect = async() => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/stripe`);
+      console.log(res.data)
+      res.status === 200 && connectStripe(res.data);
+    }catch(err) {
+      console.log(err)
+    }
+  };
 
   return (
     <ContentStyle>
@@ -524,21 +538,23 @@ export default function ProfileSettings() {
               }}
             />
           </Paper>
-
-          <Button
+          {!user?.onboarding_complete && 
+            <Button
             variant='outlined'
             sx={{
               borderColor: "common.black",
               color: "common.black",
-              width: { xs: "100%", sm: "50%", md: "25%" },
+              width: { xs: "100%", sm: "50%", md: "50%" },
               ":hover": {
                 bgcolor: "common.black",
                 color: "orange",
               },
             }}
-          >
-            PAY OUT
+            onClick={handleStripeConnect}
+            >
+            CONNECT ACCOUNT
           </Button>
+          }
         </Stack>
       </Stack>
       <Notification message={message} show={show} setShow={setShow}/>

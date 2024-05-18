@@ -48,6 +48,8 @@ export interface UserProp {
   points?: number,
   address?: string,
   apple?: string,
+  account_id?: string,
+  onboarding_complete?: boolean,
   earnings?: {subscriptions: number | 0, bookings: number | 0, total: number | 0},
 };
 

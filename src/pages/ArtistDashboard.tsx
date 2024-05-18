@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { Dashboard, Earnings, Fans } from "sections/artist-dashboard";
 import TimeTickets from "sections/artist-dashboard/TimeTickets";
 import ArtistSettings from "./ArtistSettings";
-import { useLocation, useParams, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks"
+import { updatetUserFailure, updatetUserStart, updatetUserSuccess } from "../redux/slice/UserSlice";
+import axios from "axios";
 
 const RootStyle = styled("div")(({ theme }) => ({
   height: "100%",
@@ -48,6 +51,9 @@ function a11yProps(index: number) {
 
 export default function ArtistDashboard() {
   const [value, setValue] = useState(0);
+
+  const dispatch = useAppDispatch();
+    const navigate = useNavigate();
   const location = useLocation();
   const code = new URLSearchParams(location.search).get("code");
 
@@ -56,6 +62,21 @@ export default function ArtistDashboard() {
       setValue(1)
     }
   },[code])
+
+  
+  useEffect(() => {
+    const completeOnboarding = async() => {
+        dispatch(updatetUserStart());
+        try {
+            const res = await axios.put(`${process.env.REACT_APP_BASE_URL}/stripe`);
+            dispatch(updatetUserSuccess(res.data));
+        }catch(err) {
+            dispatch(updatetUserFailure())
+            console.log(err)
+        }
+    }
+    completeOnboarding();
+},[])
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

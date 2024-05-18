@@ -58,6 +58,10 @@ function a11yProps(index: number) {
 export default function Earnings() {
   const [value, setValue] = useState(0);
   const [amount, setAmount] = useState("");
+  const [loginUrl, setLoginUrl] = useState<string>("");
+  const [pendingBalance, setPendingBalance] = useState<number>(0);
+  const [availableBalance, setAvailableBalance] = useState<number>(0);
+  const [currency, setCurrency] = useState<string>("");
   const [clientSecret, setClientSecret] = useState("");
   const [totalEarning, setTotalEarning] = useState<number | undefined>(0);
   const [bookingEarning, setBookingEarning] = useState<number | undefined>(0);
@@ -100,31 +104,44 @@ export default function Earnings() {
       }
     }
     getOrders();
+  },[]);
+
+  useEffect(() => {
+    const getAccountDetails = async() => {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/stripe`);
+        setAvailableBalance(res.data.balanceAvailable);
+        setPendingBalance(res.data.balancePending)
+        setLoginUrl(res.data.login_url);
+        setCurrency(res.data.balanceCurrency);
+      }catch(err) {
+        console.log(err);
+      }
+    }
+    getAccountDetails();
+  },[]);
+
+  useEffect(() => {
+    const getSubscriptionEarning = async() => {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/subscription`);
+        setSubscriptionEarning(res.data);
+      }catch(err) {
+      }
+    }
+    getSubscriptionEarning();
   },[])
 
-  // useEffect(() => {
-  //   const getSubscriptionEarning = async() => {
-  //     try {
-  //       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/subscription`);
-  //       setSubscriptionEarning(res.data);
-  //     }catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   getSubscriptionEarning();
-  // },[])
-
-  // useEffect(() => {
-  //   const getBookingEarning = async() => {
-  //     try {
-  //       const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/booking`);
-  //       setBookingEarning(res.data)
-  //     }catch(err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   getBookingEarning();
-  // },[])
+  useEffect(() => {
+    const getBookingEarning = async() => {
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/orders/booking`);
+        setBookingEarning(res.data)
+      }catch(err) {
+      }
+    }
+    getBookingEarning();
+  },[])
 
 
   const handleSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
@@ -137,6 +154,36 @@ export default function Earnings() {
       console.log(err);
     }
 
+  }
+
+  const connectStripe = (url: string) => {
+    window.location.href = url;
+  }
+
+  const handleStripeConnect = async() => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/stripe`);
+      res.status === 200 && connectStripe(res.data);
+    }catch(err) {
+      console.log(err)
+    }
+  };
+
+  const handlePayout = async() => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/stripe/payout`);
+      res.status === 200 && setAvailableBalance(0);
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+  const handleCharges = async() => {
+    try{
+      const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/stripe/${user?._id}`);
+    }catch(err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -247,26 +294,96 @@ export default function Earnings() {
           </Stack>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <form>
-            {/* <input type="text" placeholder="Stripe Account ID" /> */}
-            <InputBase 
-              // type="text" 
-              placeholder="Amount" 
-              onChange={(e)=>setAmount(e.target.value)}
-            />
-            <button onClick={handleSubmit}>Withdraw</button>
-          </form>
-          {/* https://docs.stripe.com/api/transfers/retrieve */}
-          {/* https://docs.stripe.com/connect/separate-charges-and-transfers */}
-          {/* https://docs.stripe.com/connect/express-accounts */}
-          {/* {clientSecret ? (
-            <Elements options={options} stripe={stripePromise}>
-              <CheckOutForm />
-            </Elements>
-          ): (
-            <button>Pay Out</button>
-          )} */}
-          {/* <GoogleLoginButton /> */}
+           <Stack spacing={5} sx={{ px: 2 }}>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              sx={{ bgcolor: "common.white", borderRadius: 1, padding: 6 }}
+            >
+              <Stack direction='row' alignItems='center' spacing={1}>
+                <Icon icon='cil:dollar' height={30} width={30} />
+                <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+                  Available Balance On SOUNDCTRL
+                </Typography>
+              </Stack>
+              <Stack direction='row' spacing={1}>
+                <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+                  Amount:
+                </Typography>
+                <Typography variant='subtitle1'>{currency}{availableBalance}</Typography>
+              </Stack>
+            </Stack>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              sx={{ bgcolor: "common.white", borderRadius: 1, padding: 6 }}
+            >
+              <Stack direction='row' alignItems='center' spacing={1}>
+                <Icon icon='cil:dollar' height={30} width={30} />
+                <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+                  Pending Balance On SOUNDCTRL
+                </Typography>
+              </Stack>
+              <Stack direction='row' spacing={1}>
+                <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+                  Amount:
+                </Typography>
+                <Typography variant='subtitle1'>{currency}{pendingBalance}</Typography>
+              </Stack>
+            </Stack>
+            <Stack
+              direction='row'
+              justifyContent='space-between'
+              sx={{ bgcolor: "common.white", borderRadius: 1, padding: 6 }}
+            >
+              <Stack direction='row' alignItems='center' spacing={1}>
+                <Icon icon='cil:dollar' height={30} width={30} />
+                <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
+                  <a href={loginUrl} target="_blank" rel="noreferrer">
+                    View account details
+                  </a>
+                  {/* <Button onClick={handleCharges}>Generate Charges</Button> */}
+                </Typography>
+              </Stack>
+              <Stack direction='row' spacing={2}>
+                 {user?.onboarding_complete ? (
+                  <Button
+                  variant='outlined'
+                  onClick={handlePayout}
+                  disabled={!availableBalance}
+                  sx={{
+                    borderColor: "common.black",
+                    color: `${!availableBalance ? "common.gray":"common.black"}`,
+                    width: { xs: "100%", sm: "100%", md: "100%" },
+                    ":hover": {
+                      bgcolor: "common.black",
+                      color: "orange",
+                    },
+                  }}
+                  >
+                  PAY OUT
+                </Button>
+                ): (
+                  <Button
+                  variant='outlined'
+                  onClick={handleStripeConnect}
+                  sx={{
+                    borderColor: "common.black",
+                    color: "common.black",
+                    width: { xs: "100%", sm: "50%", md: "100%" },
+                    ":hover": {
+                      bgcolor: "common.black",
+                      color: "orange",
+                    },
+                  }}
+                  >
+                  CONNECT ACCOUNT
+                </Button>
+                )}
+              </Stack>
+            </Stack>
+            </Stack>
+         
         </CustomTabPanel>
       </Box>
     </ContentStyle>

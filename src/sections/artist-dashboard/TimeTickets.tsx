@@ -19,6 +19,7 @@ export default function TimeTickets() {
   const bookings = useAppSelector((state) => state.booking.bookings);
   const preparedBookings = [...bookings].filter((item) => item.status === "prepared");
   const soldBookings = [...bookings].filter((item) => item.status === "sold");
+  const scheduleBookings = [...bookings].filter((item) => item.status === "book");
 
   return (
     <ContentStyle>
@@ -92,7 +93,7 @@ export default function TimeTickets() {
           Time booking SCHEDULES
         </Typography>
         <Box sx={{ width: "30%", my: 5 }}>
-          {soldBookings?.slice(0,6).map((item) => (
+          {scheduleBookings?.slice(0,6).map((item) => (
             <AcceptedTicketCard
               key={item.key}
               link={item.link}
