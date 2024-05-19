@@ -142,7 +142,7 @@ export default function Login() {
               />
               <Icon icon='fluent:eye-28-filled' style={{ position: "absolute", right: 10 }} />
             </Paper>
-            <Link href='/forgot-password' sx={{ textAlign: "right", color: "#6A707C" }}>
+            <Link href='/password' sx={{ textAlign: "right", color: "#6A707C" }}>
               Forgot password?
             </Link>
             <Button

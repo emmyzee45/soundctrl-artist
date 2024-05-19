@@ -68,7 +68,7 @@ export default function ForgotPassword() {
       setMessage("Password reset email sent!");
       setShow(true);
       setTimeout(() => {}, 10000);
-      navigate("/code-verification")
+      navigate("/password/verification")
     } catch (error: any) {
       if(!error?.response) {
         setMessage("No server response")
