@@ -339,9 +339,11 @@ export default function Earnings() {
               <Stack direction='row' alignItems='center' spacing={1}>
                 <Icon icon='cil:dollar' height={30} width={30} />
                 <Typography variant='subtitle1' sx={{ fontWeight: 700 }}>
-                  <a href={loginUrl} target="_blank" rel="noreferrer">
+                  {user?.onboarding_complete && (
+                    <a href={loginUrl} target="_blank" rel="noreferrer">
                     View account details
                   </a>
+                  )}
                   {/* <Button onClick={handleCharges}>Generate Charges</Button> */}
                 </Typography>
               </Stack>

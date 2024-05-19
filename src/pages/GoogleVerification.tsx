@@ -12,7 +12,6 @@ function GoogleVerification() {
           try {
             const res = await axios.get(`${process.env.REACT_APP_BASE_URL}/bookings/google?code=${code}`);
             navigate("/artist-dashboard");
-            console.log(res)
           } catch(err) {
             console.log(err)
           }

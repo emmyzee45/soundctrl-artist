@@ -13,7 +13,6 @@ export default function Success() {
     navigate("/login");
   };
 
-
   return (
     <SectionContainer>
       <Stack
