@@ -89,7 +89,7 @@ const AppointmentScheduler: React.FC = () => {
     setScheduleSaved(true);
     const startTime = selectedTime.split("-")[0];
     const endTime = selectedTime.split("-")[1];
-    
+    console.log("Schedule actions occurs")
     dispatch(addBookingStart())
     try {
       const res = await axios.post(`${process.env.REACT_APP_BASE_URL}/bookings`, {
@@ -100,6 +100,7 @@ const AppointmentScheduler: React.FC = () => {
         date:  `0${formattedDate} ${formattedTime}`,
         id: user?._id,
       });
+      console.log(res.data)
       if(res.status === 201) {
         handleGoogleUrl(res.data)
       }else {
@@ -108,12 +109,17 @@ const AppointmentScheduler: React.FC = () => {
         setShow(true);
       }
     }catch(err) {
+      console.log(err)
       dispatch(addBookingFailure())
     }
   };
 
   const handleGoogleUrl = (url: string) => {
-    window.location.href = url
+    try {
+      window.location.href = url
+    }catch(err) {
+      console.log(err)
+    }
   }
 
 
